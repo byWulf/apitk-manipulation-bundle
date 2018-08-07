@@ -1,0 +1,14 @@
+services:
+  Shopping\ApiTKUpdateBundle\ParamConverter\PayloadConverter:
+    autowire: true
+    public: false
+    tags:
+      - { name: request.param_converter, priority: 5 } # needs to run before doctrine converter
+
+  Shopping\ApiTKUpdateBundle\Describer\AnnotationDescriber:
+    autowire: true
+    public: false
+    arguments:
+      - '@nelmio_api_doc.routes.default'
+    tags:
+      - { name: 'nelmio_api_doc.route_describer', priority: -1000 }
