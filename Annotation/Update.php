@@ -7,15 +7,15 @@ namespace Shopping\ApiTKManipulationBundle\Annotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * Class Payload.
+ * Class Update.
  *
  * @Annotation
  *
  * Annotation for automatic handling of POST, PUT and PATCH methods.
  *
- * @example Payload("deal", type=DealV1Type::class)
- * @example Payload("user", type=UserV1Type::class, entityManager="otherConnection")
- * @example Payload(
+ * @example Update("deal", type=DealV1Type::class)
+ * @example Update("user", type=UserV1Type::class, entityManager="otherConnection")
+ * @example Update(
  *      "item",
  *      type="App\Form\Type\ItemV1Type",
  *      requestParam="item_name",
@@ -24,7 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  *
  * @package Shopping\ApiTKManipulationBundle\Annotation
  */
-class Payload extends ParamConverter
+class Update extends ParamConverter
 {
     /**
      * Specify the name of this filter.

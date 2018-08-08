@@ -10,13 +10,13 @@ use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Shopping\ApiTKCommonBundle\Exception\ValidationException;
-use Shopping\ApiTKManipulationBundle\Annotation\Payload;
+use Shopping\ApiTKManipulationBundle\Annotation\Update;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PayloadConverter.
+ * Class UpdateConverter.
  *
  * Handles POST, PUT and PATCH requests for a given entity and form type.
  * For PUT & PATCH, it will fetch the requested entity from doctrine, create a form and validate it.
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package Shopping\ApiTKManipulationBundle\ParamConverter
  */
-class PayloadConverter implements ParamConverterInterface
+class UpdateConverter implements ParamConverterInterface
 {
     /**
      * @var ManagerRegistry
@@ -49,7 +49,7 @@ class PayloadConverter implements ParamConverterInterface
     private $form;
 
     /**
-     * PayloadConverter constructor.
+     * UpdateConverter constructor.
      *
      * @param FormFactoryInterface $formFactory
      * @param ManagerRegistry|null $registry
@@ -76,7 +76,7 @@ class PayloadConverter implements ParamConverterInterface
         $options = $configuration->getOptions();
 
         if (!isset($options['type'])) {
-            throw new \InvalidArgumentException('You have to specify "type" option for the PayloadConverter.');
+            throw new \InvalidArgumentException('You have to specify "type" option for the UpdateConverter.');
         }
 
         // already create the form to read the data_class from it
@@ -85,7 +85,7 @@ class PayloadConverter implements ParamConverterInterface
 
         if ($this->entityClass === null) {
             throw new \InvalidArgumentException(
-                'You have to specify "data_class" option in "' . $options['type'] . '" for the PayloadConverter.'
+                'You have to specify "data_class" option in "' . $options['type'] . '" for the UpdateConverter.'
             );
         }
 
@@ -136,7 +136,7 @@ class PayloadConverter implements ParamConverterInterface
         if ($requestParam === null) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    '""%s" is missing from the Request attributes but is required for the PayloadConverter. '
+                    '""%s" is missing from the Request attributes but is required for the UpdateConverter. '
                     . 'It defaults to "id" but may be changed via the "requestParam" option',
                     $requestParamName
                 )
@@ -224,7 +224,7 @@ class PayloadConverter implements ParamConverterInterface
         if ($om === null) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'Entity Manager named "%s" does not exist. Please check the "entityManager" property of your Payload annotation.',
+                    'Entity Manager named "%s" does not exist. Please check the "entityManager" property of your Update annotation.',
                     $name
                 )
             );
@@ -242,6 +242,6 @@ class PayloadConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration)
     {
-        return $configuration instanceof Payload && $this->registry instanceof ManagerRegistry;
+        return $configuration instanceof Update && $this->registry instanceof ManagerRegistry;
     }
 }

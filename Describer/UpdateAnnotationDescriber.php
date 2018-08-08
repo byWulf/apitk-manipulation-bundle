@@ -12,22 +12,22 @@ use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareTrait;
 use Nelmio\ApiDocBundle\Model\Model;
 use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
 use Shopping\ApiTKCommonBundle\Util\ControllerReflector;
-use Shopping\ApiTKManipulationBundle\Annotation\Payload;
+use Shopping\ApiTKManipulationBundle\Annotation\Update;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Class PayloadAnnotationDescriber.
+ * Class UpdateAnnotationDescriber.
  *
  * Provides automatic @Parameter swagger annotations for actions that use the
- * param converter for @Payload annotation.
+ * param converter for @Update annotation.
  *
  * @package Shopping\ApiTKManipulationBundle\Describer
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class PayloadAnnotationDescriber extends AbstractDescriber implements ModelRegistryAwareInterface
+class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegistryAwareInterface
 {
     use ModelRegistryAwareTrait;
 
@@ -60,16 +60,16 @@ class PayloadAnnotationDescriber extends AbstractDescriber implements ModelRegis
     {
         $methodAnnotations = $this->reader->getMethodAnnotations($classMethod);
 
-        /** @var Payload[] $payloads */
-        $payloads = array_filter($methodAnnotations, function ($annotation) { return $annotation instanceof Payload; });
-        $this->addPayloadsToOperation($operation, $payloads);
+        /** @var Update[] $payloads */
+        $payloads = array_filter($methodAnnotations, function ($annotation) { return $annotation instanceof Update; });
+        $this->addUpdatesToOperation($operation, $payloads);
     }
 
     /**
      * @param Operation $operation
-     * @param Payload[] $payloads
+     * @param Update[]  $payloads
      */
-    private function addPayloadsToOperation(Operation $operation, array $payloads): void
+    private function addUpdatesToOperation(Operation $operation, array $payloads): void
     {
         foreach ($payloads as $payload) {
             $form = $this->formFactory->create($payload->getOptions()['type']);

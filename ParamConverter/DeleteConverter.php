@@ -33,7 +33,7 @@ class DeleteConverter implements ParamConverterInterface
     private $registry;
 
     /**
-     * PayloadConverter constructor.
+     * UpdateConverter constructor.
      *
      * @param ManagerRegistry|null $registry
      */

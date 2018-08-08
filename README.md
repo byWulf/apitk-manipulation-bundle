@@ -38,7 +38,7 @@ use Shopping\ApiTKManipulationBundle\Annotation as Manipulation;
  * Partially update a deal's properties.
  *
  * @Rest\Patch("/v1/deals/{id}")
- * @Manipulation\Payload("deal", type=DealV1Type::class)
+ * @Manipulation\Update("deal", type=DealV1Type::class)
  * @Dto\View(dtoMapper="App\DtoMapper\DealV1Mapper")
  *
  * @SWG\Tag(name="Deal")

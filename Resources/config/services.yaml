@@ -1,5 +1,5 @@
 services:
-  Shopping\ApiTKManipulationBundle\ParamConverter\PayloadConverter:
+  Shopping\ApiTKManipulationBundle\ParamConverter\UpdateConverter:
     autowire: true
     public: false
     tags:
@@ -11,7 +11,7 @@ services:
     tags:
     - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
 
-  Shopping\ApiTKManipulationBundle\Describer\PayloadAnnotationDescriber:
+  Shopping\ApiTKManipulationBundle\Describer\UpdateAnnotationDescriber:
     autowire: true
     public: false
     arguments:
