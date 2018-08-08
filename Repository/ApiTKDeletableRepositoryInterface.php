@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\Repository;
 
+use Shopping\ApiTKManipulationBundle\Service\ApiTKDeletionService;
+
 /**
  * Interface ApiTKDeletableRepositoryInterface.
  *
@@ -20,7 +22,7 @@ interface ApiTKDeletableRepositoryInterface
      * You may delete the entity from the database here, perform a soft delete
      * or other things to mark your entity as deleted.
      *
-     * @param string $idParameter
+     * @param ApiTKDeletionService $deletionService
      *
      * The param converter is able to handle these exceptions, so use them appropriately:
      *
@@ -30,5 +32,5 @@ interface ApiTKDeletableRepositoryInterface
      *
      * @return bool deletion status
      */
-    public function deleteByRequest(string $idParameter): bool;
+    public function deleteByRequest(ApiTKDeletionService $deletionService): bool;
 }

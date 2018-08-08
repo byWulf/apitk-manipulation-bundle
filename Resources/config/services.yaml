@@ -1,4 +1,8 @@
 services:
+  Shopping\ApiTKManipulationBundle\Service\ApiTKDeletionService:
+    autowire: true
+    public: false
+
   Shopping\ApiTKManipulationBundle\ParamConverter\UpdateConverter:
     autowire: true
     public: false

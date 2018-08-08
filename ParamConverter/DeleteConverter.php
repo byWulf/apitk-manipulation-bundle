@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Shopping\ApiTKManipulationBundle\Exception\DeletionException;
 use Shopping\ApiTKManipulationBundle\Repository\ApiTKDeletableRepositoryInterface;
+use Shopping\ApiTKManipulationBundle\Service\ApiTKDeletionService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,15 +32,21 @@ class DeleteConverter implements ParamConverterInterface
      * @var ManagerRegistry
      */
     private $registry;
+    /**
+     * @var ApiTKDeletionService
+     */
+    private $deletionService;
 
     /**
      * UpdateConverter constructor.
      *
+     * @param ApiTKDeletionService $deletionService
      * @param ManagerRegistry|null $registry
      */
-    public function __construct(ManagerRegistry $registry = null)
+    public function __construct(ApiTKDeletionService $deletionService, ManagerRegistry $registry = null)
     {
         $this->registry = $registry;
+        $this->deletionService = $deletionService;
     }
 
     /**
@@ -118,6 +125,11 @@ class DeleteConverter implements ParamConverterInterface
             );
         }
 
+        // fill deletion service with appropriate values
+        $this->deletionService
+            ->setParameterName($requestParamName)
+            ->setParameterValue($requestParam);
+
         /*
          * normalize exceptions:
          * - DeleteException for ORM errors
@@ -125,7 +137,7 @@ class DeleteConverter implements ParamConverterInterface
          */
 
         try {
-            $result = $repository->deleteByRequest($requestParam);
+            $result = $repository->deleteByRequest($this->deletionService);
         } catch (EntityNotFoundException $e) {
             // check for meaningful error message and re-raise
             if (empty($e->getMessage())) {
