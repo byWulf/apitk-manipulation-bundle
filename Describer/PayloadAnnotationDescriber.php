@@ -18,7 +18,7 @@ use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Class AnnotationDescriber.
+ * Class PayloadAnnotationDescriber.
  *
  * Provides automatic @Parameter swagger annotations for actions that use the
  * param converter for @Payload annotation.
@@ -27,7 +27,7 @@ use Symfony\Component\Routing\RouteCollection;
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class AnnotationDescriber extends AbstractDescriber implements ModelRegistryAwareInterface
+class PayloadAnnotationDescriber extends AbstractDescriber implements ModelRegistryAwareInterface
 {
     use ModelRegistryAwareTrait;
 

@@ -1,6 +1,6 @@
 {
   "name": "shopping/apitk-update-bundle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "type": "symfony-bundle",
   "description": "",
@@ -49,7 +49,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:alexdo/aptik-common-bundle.git"
+      "url": "git@github.com:alexdo/apitk-common-bundle.git"
     }
   ]
 }

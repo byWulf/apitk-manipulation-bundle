@@ -7,6 +7,12 @@ namespace Shopping\ApiTKUpdateBundle\Annotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
+ * Class Payload.
+ *
+ * @Annotation
+ *
+ * Annotation for automatic handling of POST, PUT and PATCH methods.
+ *
  * @example Payload("deal", type=DealV1Type::class)
  * @example Payload("user", type=UserV1Type::class, entityManager="otherConnection")
  * @example Payload(
@@ -17,8 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  * )
  *
  * @package Shopping\ApiTKUpdateBundle\Annotation
- *
- * @Annotation
  */
 class Payload extends ParamConverter
 {
