@@ -1,4 +1,4 @@
-# apitk-update-bundle
+# apitk-manipulation-bundle
 
 API Toolkit Bundle to handle POST, PUT, PATCH and DELETE methods.
 
@@ -8,7 +8,7 @@ Add this repository to your `composer.json` until it is available at packagist:
 {
     "repositories": [{
             "type": "vcs",
-            "url": "git@github.com:alexdo/apitk-update-bundle.git"
+            "url": "git@github.com:alexdo/apitk-manipulation-bundle.git"
         }
     ]
 }
@@ -16,7 +16,7 @@ Add this repository to your `composer.json` until it is available at packagist:
 
 After that, install the package via composer:
 ```
-composer install shopping/apitk-update-bundle:dev-master
+composer install shopping/apitk-manipulation-bundle:dev-master
 ```
 
 ## Usage
@@ -32,13 +32,13 @@ You'll need:
 
 
 ```
-use Shopping\ApiTKUpdateBundle\Annotation as Update;
+use Shopping\ApiTKManipulationBundle\Annotation as Manipulation;
 
 /**
  * Partially update a deal's properties.
  *
  * @Rest\Patch("/v1/deals/{id}")
- * @Update\Payload("deal", type=DealV1Type::class)
+ * @Manipulation\Update("deal", type=DealV1Type::class)
  * @Dto\View(dtoMapper="App\DtoMapper\DealV1Mapper")
  *
  * @SWG\Tag(name="Deal")
@@ -56,7 +56,7 @@ public function patchDealV1(Deal $deal): Deal
 
 This will also auto-generate appropriate Swagger parameters.
 
-apitk-update-bundle plays nicely with all other apitk bundles. The example above uses 
+apitk-manipulation-bundle plays nicely with all other apitk bundles. The example above uses 
 the `Dto\View`-Annotation from apitk-dto-mapper-bundle to transform our updated entity
 in a DTO and return it as e.g. JSON. 
  
@@ -66,14 +66,14 @@ in a DTO and return it as e.g. JSON.
 To remove an entity, add an action to your controller that uses the `Delete`-Annotation.
 
 ```
-use Shopping\ApiTKUpdateBundle\Annotation as Update;
+use Shopping\ApiTKManipulationBundle\Annotation as Manipulation;
 
 /**
  * Remove a deal.
  *
  * @Rest\Delete("/v1/deals/{id}")
  *
- * @Update\Delete("id", entity=Deal::class)
+ * @Manipulation\Delete("id", entity=Deal::class)
  *
  * @SWG\Tag(name="Deal")
  *
@@ -85,7 +85,7 @@ public function deleteDealV1(Response $response): Response
 }
 ```
 
-`@Update\Delete("id", entity=Deal::class)`
+`@Manipulation\Delete("id", entity=Deal::class)`
 * `"id"` is the name of the path-component to get the ID from
 * `entity=Deal::class` is the type of the entity to be removed
 
@@ -93,7 +93,7 @@ Next, make sure your `DealRepository` implements `ApiTKDeletableRepositoryInterf
 and add the appropriate method:
 
 ```
-use Shopping\ApiTKUpdateBundle\Repository\ApiTKDeletableRepositoryInterface;
+use Shopping\ApiTKManipulationBundle\Repository\ApiTKDeletableRepositoryInterface;
 
 class DealRepository extends EntityRepository implements ApiTKDeletableRepositoryInterface
 {

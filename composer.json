@@ -1,6 +1,6 @@
 {
-  "name": "shopping/apitk-update-bundle",
-  "version": "0.2.0",
+  "name": "shopping/apitk-manipulation-bundle",
+  "version": "0.2.1",
   "license": "MIT",
   "type": "symfony-bundle",
   "description": "",
@@ -11,7 +11,7 @@
     }
   ],
   "autoload": {
-    "psr-4": { "Shopping\\ApiTKUpdateBundle\\": "" },
+    "psr-4": { "Shopping\\ApiTKManipulationBundle\\": "" },
     "exclude-from-classmap": [
       "/Tests/"
     ]

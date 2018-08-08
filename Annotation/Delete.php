@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\Annotation;
+namespace Shopping\ApiTKManipulationBundle\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -22,7 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  * @example Delete("email", entity=User::class)
  * @example Delete("itemId", entity=Item::class, entityManager="someOtherConnection")
  *
- * @package Shopping\ApiTKUpdateBundle\Annotation
+ * @package Shopping\ApiTKManipulationBundle\Annotation
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
