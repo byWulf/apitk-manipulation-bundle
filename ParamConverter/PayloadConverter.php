@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\ParamConverter;
+namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Shopping\ApiTKCommonBundle\Exception\ValidationException;
-use Shopping\ApiTKUpdateBundle\Annotation\Payload;
+use Shopping\ApiTKManipulationBundle\Annotation\Payload;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * Objects without validation errors will be updated/persisted to the DB automatically.
  *
- * @package Shopping\ApiTKUpdateBundle\ParamConverter
+ * @package Shopping\ApiTKManipulationBundle\ParamConverter
  */
 class PayloadConverter implements ParamConverterInterface
 {

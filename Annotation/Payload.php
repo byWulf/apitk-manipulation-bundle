@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\Annotation;
+namespace Shopping\ApiTKManipulationBundle\Annotation;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -22,7 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  *      repositoryFindMethodName="findByName"
  * )
  *
- * @package Shopping\ApiTKUpdateBundle\Annotation
+ * @package Shopping\ApiTKManipulationBundle\Annotation
  */
 class Payload extends ParamConverter
 {

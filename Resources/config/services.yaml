@@ -1,17 +1,17 @@
 services:
-  Shopping\ApiTKUpdateBundle\ParamConverter\PayloadConverter:
+  Shopping\ApiTKManipulationBundle\ParamConverter\PayloadConverter:
     autowire: true
     public: false
     tags:
       - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
 
-  Shopping\ApiTKUpdateBundle\ParamConverter\DeleteConverter:
+  Shopping\ApiTKManipulationBundle\ParamConverter\DeleteConverter:
     autowire: true
     public: false
     tags:
     - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
 
-  Shopping\ApiTKUpdateBundle\Describer\PayloadAnnotationDescriber:
+  Shopping\ApiTKManipulationBundle\Describer\PayloadAnnotationDescriber:
     autowire: true
     public: false
     arguments:
@@ -19,7 +19,7 @@ services:
     tags:
       - { name: 'nelmio_api_doc.route_describer', priority: -1000 }
 
-  Shopping\ApiTKUpdateBundle\Describer\DeleteAnnotationDescriber:
+  Shopping\ApiTKManipulationBundle\Describer\DeleteAnnotationDescriber:
     autowire: true
     public: false
     arguments:

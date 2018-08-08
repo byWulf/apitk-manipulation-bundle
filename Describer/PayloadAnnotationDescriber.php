@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\Describer;
+namespace Shopping\ApiTKManipulationBundle\Describer;
 
 use Doctrine\Common\Annotations\Reader;
 use EXSyst\Component\Swagger\Operation;
@@ -12,7 +12,7 @@ use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareTrait;
 use Nelmio\ApiDocBundle\Model\Model;
 use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
 use Shopping\ApiTKCommonBundle\Util\ControllerReflector;
-use Shopping\ApiTKUpdateBundle\Annotation\Payload;
+use Shopping\ApiTKManipulationBundle\Annotation\Payload;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Routing\RouteCollection;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RouteCollection;
  * Provides automatic @Parameter swagger annotations for actions that use the
  * param converter for @Payload annotation.
  *
- * @package Shopping\ApiTKUpdateBundle\Describer
+ * @package Shopping\ApiTKManipulationBundle\Describer
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */

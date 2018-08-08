@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\DependencyInjection;
+namespace Shopping\ApiTKManipulationBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,13 +10,13 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class ShoppingApiTKUpdateBundleExtension.
+ * Class ShoppingApiTKManipulationBundleExtension.
  *
- * @package Shopping\ApiTKUpdateBundle\DependencyInjection
+ * @package Shopping\ApiTKManipulationBundle\DependencyInjection
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class ShoppingApiTKUpdateBundleExtension extends Extension
+class ShoppingApiTKManipulationBundleExtension extends Extension
 {
     /**
      * Loads a specific configuration.

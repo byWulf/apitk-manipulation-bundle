@@ -1,12 +1,12 @@
 <?php
 
-namespace Shopping\ApiTKUpdateBundle\Describer;
+namespace Shopping\ApiTKManipulationBundle\Describer;
 
 use EXSyst\Component\Swagger\Operation;
 use EXSyst\Component\Swagger\Parameter;
 use EXSyst\Component\Swagger\Response;
 use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
-use Shopping\ApiTKUpdateBundle\Annotation\Delete;
+use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Provides automatic Parameter swagger annotations for actions that use the
  * param converter for Delete annotation.
  *
- * @package Shopping\ApiTKUpdateBundle\Describer
+ * @package Shopping\ApiTKManipulationBundle\Describer
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */

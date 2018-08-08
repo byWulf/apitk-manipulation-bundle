@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\Repository;
+namespace Shopping\ApiTKManipulationBundle\Repository;
 
 /**
  * Interface ApiTKDeletableRepositoryInterface.
  *
- * Repositories need to implement this interface to use the @Update\Delete annotation.
+ * Repositories need to implement this interface to use the @Manipulation\Delete annotation.
  *
- * @package Shopping\ApiTKUpdateBundle\Repository
+ * @package Shopping\ApiTKManipulationBundle\Repository
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */

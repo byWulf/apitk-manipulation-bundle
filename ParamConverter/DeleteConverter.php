@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopping\ApiTKUpdateBundle\ParamConverter;
+namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityNotFoundException;
@@ -10,9 +10,9 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
-use Shopping\ApiTKUpdateBundle\Annotation\Delete;
-use Shopping\ApiTKUpdateBundle\Exception\DeletionException;
-use Shopping\ApiTKUpdateBundle\Repository\ApiTKDeletableRepositoryInterface;
+use Shopping\ApiTKManipulationBundle\Annotation\Delete;
+use Shopping\ApiTKManipulationBundle\Exception\DeletionException;
+use Shopping\ApiTKManipulationBundle\Repository\ApiTKDeletableRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * ParamConverter to delete an entity from the database.
  *
- * @package Shopping\ApiTKUpdateBundle\ParamConverter
+ * @package Shopping\ApiTKManipulationBundle\ParamConverter
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
