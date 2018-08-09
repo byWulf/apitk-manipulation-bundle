@@ -52,9 +52,9 @@ class UpdateConverter implements ParamConverterInterface
      * UpdateConverter constructor.
      *
      * @param FormFactoryInterface $formFactory
-     * @param ManagerRegistry|null $registry
+     * @param ManagerRegistry      $registry
      */
-    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $registry = null)
+    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $registry)
     {
         $this->registry = $registry;
         $this->formFactory = $formFactory;
