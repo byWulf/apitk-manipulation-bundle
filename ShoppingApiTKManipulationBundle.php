@@ -8,13 +8,13 @@ use Shopping\ApiTKManipulationBundle\DependencyInjection\ShoppingApiManipulation
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class ShoppingApiManipulationBundle.
+ * Class ShoppingApiTKManipulationBundle.
  *
  * @package Shopping\ApiTKManipulationBundle
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class ShoppingApiManipulationBundle extends Bundle
+class ShoppingApiTKManipulationBundle extends Bundle
 {
     /**
      * @return ShoppingApiManipulationBundleExtension
