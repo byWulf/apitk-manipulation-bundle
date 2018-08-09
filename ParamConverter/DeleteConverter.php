@@ -10,6 +10,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
+use Shopping\ApiTKCommonBundle\ParamConverter\ContextAwareParamConverterTrait;
 use Shopping\ApiTKCommonBundle\ParamConverter\EntityAwareParamConverterTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Shopping\ApiTKManipulationBundle\Exception\DeletionException;
@@ -28,6 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DeleteConverter implements ParamConverterInterface
 {
+    use ContextAwareParamConverterTrait;
     use EntityAwareParamConverterTrait;
 
     /**

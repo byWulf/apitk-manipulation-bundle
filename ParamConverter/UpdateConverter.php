@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Shopping\ApiTKCommonBundle\Exception\ValidationException;
+use Shopping\ApiTKCommonBundle\ParamConverter\ContextAwareParamConverterTrait;
+use Shopping\ApiTKCommonBundle\ParamConverter\EntityAwareParamConverterTrait;
+use Shopping\ApiTKCommonBundle\ParamConverter\RequestParamAwareParamConverterTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Update;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -28,10 +30,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UpdateConverter implements ParamConverterInterface
 {
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    use ContextAwareParamConverterTrait;
+    use EntityAwareParamConverterTrait;
+    use RequestParamAwareParamConverterTrait;
 
     /**
      * @var FormFactoryInterface
@@ -73,39 +74,31 @@ class UpdateConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $options = $configuration->getOptions();
+        $this->initialize($request, $configuration);
 
-        if (!isset($options['type'])) {
+        if ($this->getOption('type') === null) {
             throw new \InvalidArgumentException('You have to specify "type" option for the UpdateConverter.');
         }
 
         // already create the form to read the data_class from it
-        $this->form = $this->formFactory->create($options['type'], null, ['csrf_protection' => false]);
+        $this->form = $this->formFactory->create($this->getOption('type'), null, ['csrf_protection' => false]);
         $this->entityClass = $this->form->getConfig()->getDataClass();
 
         if ($this->entityClass === null) {
             throw new \InvalidArgumentException(
-                'You have to specify "data_class" option in "' . $options['type'] . '" for the UpdateConverter.'
+                'You have to specify "data_class" option in "' . $this->getOption('type') . '" for the UpdateConverter.'
             );
         }
-
-        $om = $this->getManager($options['entityManager'] ?? null, $this->entityClass);
 
         if ($request->isMethod(Request::METHOD_POST)) {
             $entity = null;
         } else {
-            $requestParamName = $options['requestParam'] ?? 'id';
-
-            $entity = $this->getEntity(
-                $this->entityClass,
-                $om,
-                $options['methodName'] ?? null,
-                $request->attributes->get($requestParamName),
-                $requestParamName
-            );
+            $entity = $this->getEntity();
         }
 
         $updatedEntity = $this->validateForm($this->form, $entity, $request);
+
+        $om = $this->getManager();
         $om->persist($updatedEntity);
         $om->flush();
 
@@ -115,43 +108,31 @@ class UpdateConverter implements ParamConverterInterface
     }
 
     /**
-     * @param string                                     $entityClass
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
-     * @param string|null                                $methodName
-     * @param string|null                                $requestParam
-     * @param string|null                                $requestParamName
-     *
      * @throws EntityNotFoundException
-     * @throws \InvalidArgumentException
      *
      * @return mixed Entity
      */
-    private function getEntity(
-        string $entityClass,
-        ObjectManager $manager,
-        string $methodName = null,
-        string $requestParam = null,
-        string $requestParamName = null
-    ) {
-        if ($requestParam === null) {
+    private function getEntity()
+    {
+        if ($this->getRequestParamValue() === null) {
             throw new \InvalidArgumentException(
                 sprintf(
                     '""%s" is missing from the Request attributes but is required for the UpdateConverter. '
                     . 'It defaults to "id" but may be changed via the "requestParam" option',
-                    $requestParamName
+                    $this->getRequestParamName()
                 )
             );
         }
 
-        $result = $this->findInRepository($entityClass, $manager, $methodName, $requestParam);
+        $result = $this->findInRepository();
 
         if ($result === null) {
             throw new EntityNotFoundException(
                 sprintf(
                     'Unable to find Entity of class %s with %s "%s"',
-                    $entityClass,
-                    $requestParamName,
-                    $requestParam
+                    $this->entityClass,
+                    $this->getRequestParamName(),
+                    $this->getRequestParamValue()
                 )
             );
         }
@@ -181,56 +162,14 @@ class UpdateConverter implements ParamConverterInterface
     }
 
     /**
-     * @param string                                     $entityClass
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
-     * @param string|null                                $methodName
-     * @param string|null                                $requestParam
-     *
-     * @throws \InvalidArgumentException
-     *
      * @return null|mixed Returns a matching entity or 0 if nothing has been found
      */
-    private function findInRepository(
-        string $entityClass,
-        ObjectManager $manager,
-        string $methodName = null,
-        string $requestParam = null
-    ) {
-        $repository = $manager->getRepository($entityClass);
-
-        if ($methodName === null) {
-            $methodName = 'find';
-        }
-
-        return $repository->$methodName($requestParam);
-    }
-
-    /**
-     * @param string|null $name
-     * @param string      $entity
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return \Doctrine\Common\Persistence\ObjectManager|null
-     */
-    private function getManager(?string $name, string $entity)
+    private function findInRepository()
     {
-        if (null === $name) {
-            $om = $this->registry->getManagerForClass($entity);
-        } else {
-            $om = $this->registry->getManager($name);
-        }
+        $repository = $this->getManager()->getRepository($this->entityClass);
+        $methodName = $this->getRepositoryMethodName('find');
 
-        if ($om === null) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Entity Manager named "%s" does not exist. Please check the "entityManager" property of your Update annotation.',
-                    $name
-                )
-            );
-        }
-
-        return $om;
+        return $repository->$methodName($this->getRequestParamValue());
     }
 
     /**
