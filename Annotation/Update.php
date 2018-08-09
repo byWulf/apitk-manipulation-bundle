@@ -56,12 +56,12 @@ class Update extends ParamConverter
     }
 
     /**
-     * @param $repositoryFindMethodName
+     * @param $methodName
      */
-    public function setRepositoryFindMethodName($repositoryFindMethodName)
+    public function setMethodName($methodName)
     {
         $options = $this->getOptions();
-        $options['repositoryFindMethodName'] = $repositoryFindMethodName;
+        $options['methodName'] = $methodName;
 
         $this->setOptions($options);
     }
