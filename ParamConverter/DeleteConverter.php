@@ -12,8 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Shopping\ApiTKManipulationBundle\Exception\DeletionException;
-use Shopping\ApiTKManipulationBundle\Repository\ApiTKDeletableRepositoryInterface;
-use Shopping\ApiTKManipulationBundle\Service\ApiTKDeletionService;
+use Shopping\ApiTKManipulationBundle\Repository\ApiDeletableRepositoryInterface;
+use Shopping\ApiTKManipulationBundle\Service\ApiDeletionService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,17 +33,17 @@ class DeleteConverter implements ParamConverterInterface
      */
     private $registry;
     /**
-     * @var ApiTKDeletionService
+     * @var ApiDeletionService
      */
     private $deletionService;
 
     /**
      * UpdateConverter constructor.
      *
-     * @param ApiTKDeletionService $deletionService
-     * @param ManagerRegistry|null $registry
+     * @param ApiDeletionService $deletionService
+     * @param ManagerRegistry    $registry
      */
-    public function __construct(ApiTKDeletionService $deletionService, ManagerRegistry $registry = null)
+    public function __construct(ApiDeletionService $deletionService, ManagerRegistry $registry)
     {
         $this->registry = $registry;
         $this->deletionService = $deletionService;
@@ -116,7 +116,7 @@ class DeleteConverter implements ParamConverterInterface
         $om = $this->getManager($manager, $entity);
         $repository = $om->getRepository($entity);
 
-        if (!$repository instanceof ApiTKDeletableRepositoryInterface) {
+        if (!$repository instanceof ApiDeletableRepositoryInterface) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Repository for entity "%s" does not implement the ApiTKDeletableRepositoryInterface.',

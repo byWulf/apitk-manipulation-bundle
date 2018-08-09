@@ -7,13 +7,13 @@ namespace Shopping\ApiTKManipulationBundle\Service;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class ApiTKDeletionService.
+ * Class ApiDeletionService.
  *
  * @package Shopping\ApiTKManipulationBundle\Service
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class ApiTKDeletionService
+class ApiDeletionService
 {
     /**
      * @var string
@@ -31,7 +31,7 @@ class ApiTKDeletionService
     private $requestStack;
 
     /**
-     * ApiTKDeletionService constructor.
+     * ApiDeletionService constructor.
      *
      * @param RequestStack $requestStack
      */
@@ -51,9 +51,9 @@ class ApiTKDeletionService
     /**
      * @param string $parameterName
      *
-     * @return ApiTKDeletionService
+     * @return ApiDeletionService
      */
-    public function setParameterName(string $parameterName): ApiTKDeletionService
+    public function setParameterName(string $parameterName): ApiDeletionService
     {
         $this->parameterName = $parameterName;
 
@@ -71,9 +71,9 @@ class ApiTKDeletionService
     /**
      * @param string $parameterValue
      *
-     * @return ApiTKDeletionService
+     * @return ApiDeletionService
      */
-    public function setParameterValue(string $parameterValue): ApiTKDeletionService
+    public function setParameterValue(string $parameterValue): ApiDeletionService
     {
         $this->parameterValue = $parameterValue;
 
