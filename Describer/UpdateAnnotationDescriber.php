@@ -73,17 +73,17 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
     {
         foreach ($payloads as $payload) {
             $form = $this->formFactory->create($payload->getOptions()['type']);
-            $entity = $form->getConfig()->getDataClass();
+            $resolvedType = get_class($form->getConfig()->getType()->getInnerType());
 
             $parameter = new Parameter(
                 [
                     'name' => 'body',
                     'in' => 'body',
-                    'description' => '(Partial) representation of ' . $entity . ' structure. Primary key is optional, '
+                    'description' => '(Partial) representation of ' . $resolvedType . ' structure. Primary key is optional, '
                         . 'associations may be supplied via primary keys and optional fields can be left out.',
                     'required' => true,
                     'schema' => [
-                        '$ref' => $this->getModelReference($entity),
+                        '$ref' => $this->getModelReference($resolvedType),
                     ],
                 ]
             );
