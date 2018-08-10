@@ -34,13 +34,6 @@ class DeleteAnnotationDescriber extends AbstractDescriber
         /** @var Route[] $routes */
         $routes = array_filter($methodAnnotations, function ($annotation) { return $annotation instanceof Route; });
         $this->addDeletesToOperation($operation, $deletes, $routes);
-
-        $operation->getResponses()->set(
-            \Symfony\Component\HttpFoundation\Response::HTTP_NO_CONTENT,
-            new Response([
-                'description' => 'Returns HTTP 204 on success',
-            ])
-        );
     }
 
     /**
@@ -81,6 +74,12 @@ class DeleteAnnotationDescriber extends AbstractDescriber
             }
 
             $operation->getParameters()->add($parameter);
+            $operation->getResponses()->set(
+                \Symfony\Component\HttpFoundation\Response::HTTP_NO_CONTENT,
+                new Response([
+                    'description' => 'Returns HTTP 204 on success',
+                ])
+            );
         }
     }
 }
