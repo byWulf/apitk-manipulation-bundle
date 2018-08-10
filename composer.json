@@ -13,7 +13,8 @@
   "autoload": {
     "psr-4": { "Shopping\\ApiTKManipulationBundle\\": "" },
     "exclude-from-classmap": [
-      "/Tests/"
+      "/Tests/",
+      "/example/"
     ]
   },
   "config": {
