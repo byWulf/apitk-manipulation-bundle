@@ -40,11 +40,6 @@ class UpdateConverter implements ParamConverterInterface
     private $formFactory;
 
     /**
-     * @var string
-     */
-    private $entityClass;
-
-    /**
      * @var FormInterface
      */
     private $form;
@@ -82,9 +77,10 @@ class UpdateConverter implements ParamConverterInterface
 
         // already create the form to read the data_class from it
         $this->form = $this->formFactory->create($this->getOption('type'), null, ['csrf_protection' => false]);
-        $this->entityClass = $this->form->getConfig()->getDataClass();
+        // save it back to our parameterbag so EntityAwareParamConverterTrait knows what to do
+        $this->getOptions()->set('entity', $this->form->getConfig()->getDataClass());
 
-        if ($this->entityClass === null) {
+        if ($this->getEntity() === null) {
             throw new \InvalidArgumentException(
                 'You have to specify "data_class" option in "' . $this->getOption('type') . '" for the UpdateConverter.'
             );
@@ -93,7 +89,7 @@ class UpdateConverter implements ParamConverterInterface
         if ($request->isMethod(Request::METHOD_POST)) {
             $entity = null;
         } else {
-            $entity = $this->getEntity();
+            $entity = $this->fetchEntity();
         }
 
         $updatedEntity = $this->validateForm($this->form, $entity, $request);
@@ -112,7 +108,7 @@ class UpdateConverter implements ParamConverterInterface
      *
      * @return mixed Entity
      */
-    private function getEntity()
+    private function fetchEntity()
     {
         if ($this->getRequestParamValue() === null) {
             throw new \InvalidArgumentException(
@@ -130,7 +126,7 @@ class UpdateConverter implements ParamConverterInterface
             throw new EntityNotFoundException(
                 sprintf(
                     'Unable to find Entity of class %s with %s "%s"',
-                    $this->entityClass,
+                    $this->getEntity(),
                     $this->getRequestParamName(),
                     $this->getRequestParamValue()
                 )
@@ -166,7 +162,7 @@ class UpdateConverter implements ParamConverterInterface
      */
     private function findInRepository()
     {
-        $repository = $this->getManager()->getRepository($this->entityClass);
+        $repository = $this->getManager()->getRepository($this->getEntity());
         $methodName = $this->getRepositoryMethodName('find');
 
         return $repository->$methodName($this->getRequestParamValue());
