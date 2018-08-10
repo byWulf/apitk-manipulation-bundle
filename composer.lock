@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ef84c371fd72096ce6036f3f956d200",
+    "content-hash": "914e8663c29717489057a839bc08eca6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1874,12 +1874,17 @@
         },
         {
             "name": "shopping/apitk-common-bundle",
-            "version": "0.2.1",
+            "version": "0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexdo/apitk-common-bundle.git",
+                "reference": "6d8ff27302869a59f7ef47182bfbb009f651d15a"
+            },
             "dist": {
-                "type": "path",
-                "url": "../apitk-common-bundle",
-                "reference": "3c2c81a52cbc27676fd44976148c9d4596e8389f",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexdo/apitk-common-bundle/zipball/6d8ff27302869a59f7ef47182bfbb009f651d15a",
+                "reference": "6d8ff27302869a59f7ef47182bfbb009f651d15a",
+                "shasum": ""
             },
             "require": {
                 "nelmio/api-doc-bundle": "^3.2",
@@ -1923,7 +1928,12 @@
                     "name": "Alexander Dormann",
                     "email": "alexdo@alexdo.de"
                 }
-            ]
+            ],
+            "support": {
+                "source": "https://github.com/alexdo/apitk-common-bundle/tree/master",
+                "issues": "https://github.com/alexdo/apitk-common-bundle/issues"
+            },
+            "time": "2018-08-10T08:54:54+00:00"
         },
         {
             "name": "symfony/cache",
