@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle;
 
-use Shopping\ApiTKManipulationBundle\DependencyInjection\ShoppingApiTKManipulationBundleExtension;
+use Shopping\ApiTKManipulationBundle\DependencyInjection\ShoppingApiManipulationBundleExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -17,10 +17,10 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class ShoppingApiTKManipulationBundle extends Bundle
 {
     /**
-     * @return ShoppingApiTKManipulationBundleExtension
+     * @return ShoppingApiManipulationBundleExtension
      */
     public function getContainerExtension()
     {
-        return new ShoppingApiTKManipulationBundleExtension();
+        return new ShoppingApiManipulationBundleExtension();
     }
 }

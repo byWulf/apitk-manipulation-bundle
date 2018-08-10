@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Shopping\ApiTKManipulationBundle\Annotation;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTrait;
+use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\RequestParamAwareAnnotationTrait;
 
 /**
  * Class Update.
@@ -26,6 +28,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class Update extends ParamConverter
 {
+    use EntityAwareAnnotationTrait;
+    use RequestParamAwareAnnotationTrait;
+
     /**
      * Specify the name of this filter.
      *
@@ -40,39 +45,6 @@ class Update extends ParamConverter
     {
         $options = $this->getOptions();
         $options['type'] = $type;
-
-        $this->setOptions($options);
-    }
-
-    /**
-     * @param $entityManager
-     */
-    public function setEntityManager($entityManager)
-    {
-        $options = $this->getOptions();
-        $options['entityManager'] = $entityManager;
-
-        $this->setOptions($options);
-    }
-
-    /**
-     * @param $methodName
-     */
-    public function setMethodName($methodName)
-    {
-        $options = $this->getOptions();
-        $options['methodName'] = $methodName;
-
-        $this->setOptions($options);
-    }
-
-    /**
-     * @param $requestParam
-     */
-    public function setRequestParam($requestParam)
-    {
-        $options = $this->getOptions();
-        $options['requestParam'] = $requestParam;
 
         $this->setOptions($options);
     }

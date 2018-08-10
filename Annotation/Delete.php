@@ -6,6 +6,7 @@ namespace Shopping\ApiTKManipulationBundle\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTrait;
 
 /**
  * Class Delete.
@@ -28,25 +29,5 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class Delete extends ParamConverter
 {
-    /**
-     * @param $entityName
-     */
-    public function setEntity($entityName)
-    {
-        $options = $this->getOptions();
-        $options['entity'] = $entityName;
-
-        $this->setOptions($options);
-    }
-
-    /**
-     * @param $manager
-     */
-    public function setEntityManager($manager)
-    {
-        $options = $this->getOptions();
-        $options['entityManager'] = $manager;
-
-        $this->setOptions($options);
-    }
+    use EntityAwareAnnotationTrait;
 }

@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class ApiTKDeletionService.
+ * Class ApiDeletionService.
  *
  * @package Shopping\ApiTKManipulationBundle\Service
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class ApiTKDeletionService
+class ApiDeletionService
 {
     /**
      * @var string
@@ -31,7 +34,7 @@ class ApiTKDeletionService
     private $requestStack;
 
     /**
-     * ApiTKDeletionService constructor.
+     * ApiDeletionService constructor.
      *
      * @param RequestStack $requestStack
      */
@@ -51,9 +54,9 @@ class ApiTKDeletionService
     /**
      * @param string $parameterName
      *
-     * @return ApiTKDeletionService
+     * @return ApiDeletionService
      */
-    public function setParameterName(string $parameterName): ApiTKDeletionService
+    public function setParameterName(string $parameterName): ApiDeletionService
     {
         $this->parameterName = $parameterName;
 
@@ -71,9 +74,9 @@ class ApiTKDeletionService
     /**
      * @param string $parameterValue
      *
-     * @return ApiTKDeletionService
+     * @return ApiDeletionService
      */
-    public function setParameterValue(string $parameterValue): ApiTKDeletionService
+    public function setParameterValue(string $parameterValue): ApiDeletionService
     {
         $this->parameterValue = $parameterValue;
 
@@ -86,5 +89,32 @@ class ApiTKDeletionService
     public function getRequestStack(): RequestStack
     {
         return $this->requestStack;
+    }
+
+    /**
+     * Default handling for entity deletion when no repository method has been supplied.
+     * Will be called by DeleteConverter.
+     *
+     * @param ObjectManager    $manager
+     * @param ObjectRepository $repository
+     * @param string           $primaryKey
+     *
+     * @throws EntityNotFoundException
+     * @throws \Doctrine\ORM\ORMException
+     *
+     * @return bool
+     */
+    public function deleteEntity(ObjectManager $manager, ObjectRepository $repository, string $primaryKey): bool
+    {
+        $entity = $repository->find($primaryKey);
+
+        if ($entity === null) {
+            throw new EntityNotFoundException();
+        }
+
+        $manager->remove($entity);
+        $manager->flush();
+
+        return true;
     }
 }

@@ -1,32 +1,40 @@
 services:
-  Shopping\ApiTKManipulationBundle\Service\ApiTKDeletionService:
-    autowire: true
+  Shopping\ApiTKManipulationBundle\Service\ApiDeletionService:
     public: false
+    arguments:
+      - '@request_stack'
 
   Shopping\ApiTKManipulationBundle\ParamConverter\UpdateConverter:
-    autowire: true
     public: false
+    arguments:
+      - '@form.factory'
+      - '@doctrine'
     tags:
       - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
 
   Shopping\ApiTKManipulationBundle\ParamConverter\DeleteConverter:
-    autowire: true
     public: false
+    arguments:
+      - '@Shopping\ApiTKManipulationBundle\Service\ApiDeletionService'
+      - '@doctrine'
     tags:
-    - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
+      - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
 
   Shopping\ApiTKManipulationBundle\Describer\UpdateAnnotationDescriber:
-    autowire: true
     public: false
     arguments:
       - '@nelmio_api_doc.routes.default'
+      - '@Shopping\ApiTKCommonBundle\Util\ControllerReflector'
+      - '@annotations.reader'
+      - '@form.factory'
     tags:
       - { name: 'nelmio_api_doc.route_describer', priority: -1000 }
 
   Shopping\ApiTKManipulationBundle\Describer\DeleteAnnotationDescriber:
-    autowire: true
     public: false
     arguments:
       - '@nelmio_api_doc.routes.default'
+      - '@Shopping\ApiTKCommonBundle\Util\ControllerReflector'
+      - '@annotations.reader'
     tags:
       - { name: 'nelmio_api_doc.route_describer', priority: -1000 }

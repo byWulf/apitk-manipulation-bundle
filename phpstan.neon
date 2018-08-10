@@ -3,3 +3,4 @@ parameters:
                 - %rootDir%/../../../Tests
         excludes_analyse:
                 - %rootDir%/../../../vendor
+                - %rootDir%/../../../example

@@ -10,10 +10,11 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
+use Shopping\ApiTKCommonBundle\ParamConverter\ContextAwareParamConverterTrait;
+use Shopping\ApiTKCommonBundle\ParamConverter\EntityAwareParamConverterTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Shopping\ApiTKManipulationBundle\Exception\DeletionException;
-use Shopping\ApiTKManipulationBundle\Repository\ApiTKDeletableRepositoryInterface;
-use Shopping\ApiTKManipulationBundle\Service\ApiTKDeletionService;
+use Shopping\ApiTKManipulationBundle\Service\ApiDeletionService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,22 +29,21 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DeleteConverter implements ParamConverterInterface
 {
+    use ContextAwareParamConverterTrait;
+    use EntityAwareParamConverterTrait;
+
     /**
-     * @var ManagerRegistry
-     */
-    private $registry;
-    /**
-     * @var ApiTKDeletionService
+     * @var ApiDeletionService
      */
     private $deletionService;
 
     /**
      * UpdateConverter constructor.
      *
-     * @param ApiTKDeletionService $deletionService
-     * @param ManagerRegistry|null $registry
+     * @param ApiDeletionService $deletionService
+     * @param ManagerRegistry    $registry
      */
-    public function __construct(ApiTKDeletionService $deletionService, ManagerRegistry $registry = null)
+    public function __construct(ApiDeletionService $deletionService, ManagerRegistry $registry)
     {
         $this->registry = $registry;
         $this->deletionService = $deletionService;
@@ -61,24 +61,18 @@ class DeleteConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $options = $configuration->getOptions();
+        $this->initialize($request, $configuration);
 
-        if (!isset($options['entity'])) {
+        if ($this->getEntity() === null) {
             throw new \InvalidArgumentException('You have to specify "entity" option for the DeleteConverter.');
         }
 
         $requestParamName = $configuration->getName();
         $requestParam = $request->attributes->get($requestParamName);
 
-        $this->deleteInRepository(
-            $options['entity'],
-            $requestParam,
-            $requestParamName,
-            $options['entityManager'] ?? null
-        );
+        $this->deleteInRepository($requestParam, $requestParamName);
 
         $response = new Response(null, Response::HTTP_NO_CONTENT);
-
         $request->attributes->set('response', $response);
 
         return true;
@@ -97,54 +91,32 @@ class DeleteConverter implements ParamConverterInterface
     }
 
     /**
-     * @param string      $entity
-     * @param string      $requestParam
-     * @param string      $requestParamName
-     * @param string|null $manager
+     * Essentially a wrapper around self::performDeletion() that normalizes its possible exceptions.
+     *
+     * @param string $requestParam
+     * @param string $requestParamName
      *
      * @throws DeletionException
      * @throws EntityNotFoundException
      *
      * @return bool Deletion status
      */
-    private function deleteInRepository(
-        string $entity,
-        string $requestParam,
-        string $requestParamName,
-        string $manager = null
-    ): bool {
-        $om = $this->getManager($manager, $entity);
-        $repository = $om->getRepository($entity);
-
-        if (!$repository instanceof ApiTKDeletableRepositoryInterface) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Repository for entity "%s" does not implement the ApiTKDeletableRepositoryInterface.',
-                    $entity
-                )
-            );
-        }
-
-        // fill deletion service with appropriate values
-        $this->deletionService
-            ->setParameterName($requestParamName)
-            ->setParameterValue($requestParam);
-
+    private function deleteInRepository(string $requestParam, string $requestParamName): bool
+    {
         /*
          * normalize exceptions:
          * - DeleteException for ORM errors
          * - EntityNotFoundException when the given ID doesn't return an entity
          */
-
         try {
-            $result = $repository->deleteByRequest($this->deletionService);
+            $result = $this->performDeletion($requestParam, $requestParamName);
         } catch (EntityNotFoundException $e) {
             // check for meaningful error message and re-raise
             if (empty($e->getMessage())) {
                 throw new EntityNotFoundException(
                     sprintf(
                         'Unable to find Entity of class %s with %s "%s" for deletion.',
-                        $entity,
+                        $this->getEntity(),
                         $requestParamName,
                         $requestParam
                     ),
@@ -165,7 +137,7 @@ class DeleteConverter implements ParamConverterInterface
             throw new DeletionException(
                 sprintf(
                     'Unable to delete Entity of class %s with %s "%s".',
-                    $entity,
+                    $this->getEntity(),
                     $requestParamName,
                     $requestParam
                 )
@@ -176,17 +148,34 @@ class DeleteConverter implements ParamConverterInterface
     }
 
     /**
-     * @param string|null $name
-     * @param string      $entity
+     * Either call a custom repository method to delete a given entity based on all request params or perform
+     * the default off-the-shelf deletion where the entity will be removed based on its primary key.
      *
-     * @return \Doctrine\Common\Persistence\ObjectManager|null
+     * @param string $requestParam
+     * @param string $requestParamName
+     *
+     * @throws EntityNotFoundException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     *
+     * @return bool
      */
-    private function getManager(?string $name, string $entity)
+    private function performDeletion(string $requestParam, string $requestParamName): bool
     {
-        if (null === $name) {
-            return $this->registry->getManagerForClass($entity);
+        $om = $this->getManager();
+        $repository = $om->getRepository($this->getEntity());
+
+        $methodName = $this->getRepositoryMethodName();
+
+        if ($methodName === null) {
+            return $this->deletionService->deleteEntity($om, $repository, $requestParam);
         }
 
-        return $this->registry->getManager($name);
+        // fill deletion service with appropriate values
+        $this->deletionService
+            ->setParameterName($requestParamName)
+            ->setParameterValue($requestParam);
+
+        return $this->callRepositoryMethod($methodName, $this->deletionService);
     }
 }

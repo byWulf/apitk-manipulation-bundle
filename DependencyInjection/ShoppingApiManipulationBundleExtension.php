@@ -10,13 +10,13 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class ShoppingApiTKManipulationBundleExtension.
+ * Class ShoppingApiManipulationBundleExtension.
  *
  * @package Shopping\ApiTKManipulationBundle\DependencyInjection
  *
  * @author Alexander Dormann <alexander.dormann@check24.de>
  */
-class ShoppingApiTKManipulationBundleExtension extends Extension
+class ShoppingApiManipulationBundleExtension extends Extension
 {
     /**
      * Loads a specific configuration.
