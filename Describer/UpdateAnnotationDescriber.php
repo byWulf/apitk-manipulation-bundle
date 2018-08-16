@@ -7,6 +7,7 @@ namespace Shopping\ApiTKManipulationBundle\Describer;
 use Doctrine\Common\Annotations\Reader;
 use EXSyst\Component\Swagger\Operation;
 use EXSyst\Component\Swagger\Parameter;
+use EXSyst\Component\Swagger\Path;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareInterface;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareTrait;
 use Nelmio\ApiDocBundle\Model\Model;
@@ -55,9 +56,15 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
     /**
      * @param Operation         $operation
      * @param \ReflectionMethod $classMethod
+     * @param Path              $path
+     * @param string            $method
      */
-    protected function handleOperation(Operation $operation, \ReflectionMethod $classMethod): void
-    {
+    protected function handleOperation(
+        Operation $operation,
+        \ReflectionMethod $classMethod,
+        Path $path,
+        string $method
+    ): void {
         $methodAnnotations = $this->reader->getMethodAnnotations($classMethod);
 
         /** @var Update[] $payloads */
