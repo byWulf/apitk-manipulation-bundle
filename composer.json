@@ -1,6 +1,6 @@
 {
-  "name": "shopping/apitk-manipulation-bundle",
-  "version": "1.0.0",
+  "name": "check24/apitk-manipulation-bundle",
+  "version": "1.0.1",
   "license": "MIT",
   "type": "symfony-bundle",
   "description": "",
