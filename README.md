@@ -3,25 +3,9 @@
 API Toolkit Bundle to handle POST, PUT, PATCH and DELETE methods.
 
 ## Installation
-Add this repository to your `composer.json` until it is available at packagist:
+Install the package via composer:
 ```
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:alexdo/apitk-manipulation-bundle.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:alexdo/apitk-common-bundle.git"
-        }
-    ]
-}
-```
-
-After that, install the package via composer:
-```
-composer install shopping/apitk-manipulation-bundle:dev-master
+composer install check24/apitk-manipulation-bundle
 ```
 
 ## Usage
