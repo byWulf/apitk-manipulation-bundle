@@ -151,7 +151,7 @@ class UpdateConverter implements ParamConverterInterface
         $form->submit($request->request->all(), !$request->isMethod(Request::METHOD_PATCH));
 
         if (!$form->isValid()) {
-            throw new ValidationException((string) $form->getErrors());
+            throw new ValidationException((string) $form->getErrors(true, true));
         }
 
         return $form->getData();
