@@ -5,7 +5,7 @@ API Toolkit Bundle to handle POST, PUT, PATCH and DELETE methods.
 ## Installation
 Install the package via composer:
 ```
-composer install check24/apitk-manipulation-bundle
+composer require check24/apitk-manipulation-bundle
 ```
 
 ## Usage
