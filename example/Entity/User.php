@@ -8,8 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class User.
  *
  * @package MyApp\Entity
- *
- * @author Alexander Dormann <alexander.dormann@check24.de>
  */
 class User
 {
@@ -61,7 +59,7 @@ class User
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getUsername(): ?string
     {
@@ -69,7 +67,7 @@ class User
     }
 
     /**
-     * @param null|string $username
+     * @param string|null $username
      *
      * @return User
      */
@@ -81,7 +79,7 @@ class User
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getEmail(): ?string
     {
@@ -89,7 +87,7 @@ class User
     }
 
     /**
-     * @param null|string $email
+     * @param string|null $email
      *
      * @return User
      */
@@ -101,7 +99,7 @@ class User
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getFullname(): ?string
     {
@@ -109,7 +107,7 @@ class User
     }
 
     /**
-     * @param null|string $fullname
+     * @param string|null $fullname
      *
      * @return User
      */

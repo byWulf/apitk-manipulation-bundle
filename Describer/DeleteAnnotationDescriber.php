@@ -6,6 +6,7 @@ use EXSyst\Component\Swagger\Operation;
 use EXSyst\Component\Swagger\Parameter;
 use EXSyst\Component\Swagger\Path;
 use EXSyst\Component\Swagger\Response;
+use ReflectionMethod;
 use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,29 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
  * param converter for Delete annotation.
  *
  * @package Shopping\ApiTKManipulationBundle\Describer
- *
- * @author Alexander Dormann <alexander.dormann@check24.de>
  */
 class DeleteAnnotationDescriber extends AbstractDescriber
 {
     /**
-     * @param Operation         $operation
-     * @param \ReflectionMethod $classMethod
-     * @param Path              $path
-     * @param string            $method
+     * @param Operation        $operation
+     * @param ReflectionMethod $classMethod
+     * @param Path             $path
+     * @param string           $method
      */
     protected function handleOperation(
         Operation $operation,
-        \ReflectionMethod $classMethod,
+        ReflectionMethod $classMethod,
         Path $path,
         string $method
     ): void {
         $methodAnnotations = $this->reader->getMethodAnnotations($classMethod);
 
         /** @var Delete[] $deletes */
-        $deletes = array_filter($methodAnnotations, function ($annotation) { return $annotation instanceof Delete; });
+        $deletes = array_filter($methodAnnotations, static function ($annotation) { return $annotation instanceof Delete; });
         /** @var Route[] $routes */
-        $routes = array_filter($methodAnnotations, function ($annotation) { return $annotation instanceof Route; });
+        $routes = array_filter($methodAnnotations, static function ($annotation) { return $annotation instanceof Route; });
         $this->addDeletesToOperation($operation, $deletes, $routes);
     }
 

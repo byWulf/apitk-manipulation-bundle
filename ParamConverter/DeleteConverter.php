@@ -8,6 +8,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use InvalidArgumentException;
+use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Shopping\ApiTKCommonBundle\ParamConverter\ContextAwareParamConverterTrait;
@@ -24,8 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
  * ParamConverter to delete an entity from the database.
  *
  * @package Shopping\ApiTKManipulationBundle\ParamConverter
- *
- * @author Alexander Dormann <alexander.dormann@check24.de>
  */
 class DeleteConverter implements ParamConverterInterface
 {
@@ -55,16 +55,16 @@ class DeleteConverter implements ParamConverterInterface
      *
      * @throws EntityNotFoundException
      * @throws DeletionException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return bool
      */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $this->initialize($request, $configuration);
 
         if ($this->getEntity() === null) {
-            throw new \InvalidArgumentException('You have to specify "entity" option for the DeleteConverter.');
+            throw new InvalidArgumentException('You have to specify "entity" option for the DeleteConverter.');
         }
 
         $requestParamName = $configuration->getName();
@@ -85,7 +85,7 @@ class DeleteConverter implements ParamConverterInterface
      *
      * @return bool True if the object is supported, else false
      */
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
         return $configuration instanceof Delete && $this->registry instanceof ManagerRegistry;
     }
@@ -163,8 +163,11 @@ class DeleteConverter implements ParamConverterInterface
     private function performDeletion(string $requestParam, string $requestParamName): bool
     {
         $om = $this->getManager();
-        $repository = $om->getRepository($this->getEntity());
+        if ($om === null) {
+            throw new RuntimeException('Unable to perform deletion as EntityManager is null');
+        }
 
+        $repository = $om->getRepository((string) $this->getEntity());
         $methodName = $this->getRepositoryMethodName();
 
         if ($methodName === null) {

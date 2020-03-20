@@ -4,3 +4,4 @@
 /phpunit.xml
 .phpunit
 /.php_cs.cache
+/.php_cs

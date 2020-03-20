@@ -1,6 +1,5 @@
 parameters:
-        autoload_directories:
-                - %rootDir%/../../../Tests
-        excludes_analyse:
-                - %rootDir%/../../../vendor
-                - %rootDir%/../../../example
+    excludes_analyse:
+        - ./vendor
+        - ./example
+        - ./DependencyInjection
