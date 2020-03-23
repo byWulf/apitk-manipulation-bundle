@@ -7,14 +7,13 @@ namespace Shopping\ApiTKManipulationBundle\Service;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class ApiDeletionService.
  *
  * @package Shopping\ApiTKManipulationBundle\Service
- *
- * @author Alexander Dormann <alexander.dormann@check24.de>
  */
 class ApiDeletionService
 {
@@ -100,7 +99,7 @@ class ApiDeletionService
      * @param string           $primaryKey
      *
      * @throws EntityNotFoundException
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      *
      * @return bool
      */

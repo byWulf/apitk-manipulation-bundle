@@ -11,6 +11,7 @@ use EXSyst\Component\Swagger\Path;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareInterface;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareTrait;
 use Nelmio\ApiDocBundle\Model\Model;
+use ReflectionMethod;
 use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
 use Shopping\ApiTKCommonBundle\Util\ControllerReflector;
 use Shopping\ApiTKManipulationBundle\Annotation\Update;
@@ -25,8 +26,6 @@ use Symfony\Component\Routing\RouteCollection;
  * param converter for @Update annotation.
  *
  * @package Shopping\ApiTKManipulationBundle\Describer
- *
- * @author Alexander Dormann <alexander.dormann@check24.de>
  */
 class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegistryAwareInterface
 {
@@ -54,14 +53,14 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
     }
 
     /**
-     * @param Operation         $operation
-     * @param \ReflectionMethod $classMethod
-     * @param Path              $path
-     * @param string            $method
+     * @param Operation        $operation
+     * @param ReflectionMethod $classMethod
+     * @param Path             $path
+     * @param string           $method
      */
     protected function handleOperation(
         Operation $operation,
-        \ReflectionMethod $classMethod,
+        ReflectionMethod $classMethod,
         Path $path,
         string $method
     ): void {

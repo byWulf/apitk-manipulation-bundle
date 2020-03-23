@@ -39,9 +39,9 @@ class Update extends ParamConverter
     public $name;
 
     /**
-     * @param $type
+     * @param string $type
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $options = $this->getOptions();
         $options['type'] = $type;

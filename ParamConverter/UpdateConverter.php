@@ -6,6 +6,8 @@ namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityNotFoundException;
+use InvalidArgumentException;
+use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Shopping\ApiTKCommonBundle\Exception\ValidationException;
@@ -63,16 +65,16 @@ class UpdateConverter implements ParamConverterInterface
      * @param ParamConverter $configuration Contains the name, class and options of the object
      *
      * @throws EntityNotFoundException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return bool True if the object has been successfully set, else false
      */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $this->initialize($request, $configuration);
 
         if ($this->getOption('type') === null) {
-            throw new \InvalidArgumentException('You have to specify "type" option for the UpdateConverter.');
+            throw new InvalidArgumentException('You have to specify "type" option for the UpdateConverter.');
         }
 
         // already create the form to read the data_class from it
@@ -81,7 +83,7 @@ class UpdateConverter implements ParamConverterInterface
         $this->getOptions()->set('entity', $this->form->getConfig()->getDataClass());
 
         if ($this->getEntity() === null) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'You have to specify "data_class" option in "' . $this->getOption('type') . '" for the UpdateConverter.'
             );
         }
@@ -95,6 +97,10 @@ class UpdateConverter implements ParamConverterInterface
         $updatedEntity = $this->validateForm($this->form, $entity, $request);
 
         $om = $this->getManager();
+        if ($om === null) {
+            throw new RuntimeException('Unable to perform update as EntityManager is null');
+        }
+
         $om->persist($updatedEntity);
         $om->flush();
 
@@ -111,7 +117,7 @@ class UpdateConverter implements ParamConverterInterface
     private function fetchEntity()
     {
         if ($this->getRequestParamValue() === null) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     '""%s" is missing from the Request attributes but is required for the UpdateConverter. '
                     . 'It defaults to "id" but may be changed via the "requestParam" option',
@@ -158,11 +164,16 @@ class UpdateConverter implements ParamConverterInterface
     }
 
     /**
-     * @return null|mixed Returns a matching entity or 0 if nothing has been found
+     * @return mixed|null Returns a matching entity or 0 if nothing has been found
      */
     private function findInRepository()
     {
-        $repository = $this->getManager()->getRepository($this->getEntity());
+        $om = $this->getManager();
+        if ($om === null) {
+            throw new RuntimeException('Unable to read entity to update as EntityManager is null');
+        }
+
+        $repository = $om->getRepository((string) $this->getEntity());
         $methodName = $this->getRepositoryMethodName('find');
 
         return $repository->$methodName($this->getRequestParamValue());
@@ -175,7 +186,7 @@ class UpdateConverter implements ParamConverterInterface
      *
      * @return bool True if the object is supported, else false
      */
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
         return $configuration instanceof Update && $this->registry instanceof ManagerRegistry;
     }

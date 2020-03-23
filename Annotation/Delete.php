@@ -24,8 +24,6 @@ use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTr
  * @example Delete("itemId", entity=Item::class, entityManager="someOtherConnection")
  *
  * @package Shopping\ApiTKManipulationBundle\Annotation
- *
- * @author Alexander Dormann <alexander.dormann@check24.de>
  */
 class Delete extends ParamConverter
 {
