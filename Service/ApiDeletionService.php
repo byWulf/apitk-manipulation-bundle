@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\Service;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\RequestStack;
