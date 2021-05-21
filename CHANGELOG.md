@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2021-05-21
+
+### Added
+* Support for `doctrine/orm@^2.8`
+
+### Changed
+* Removed dependency to `symfony/orm-pack` and require `doctrine/orm` and `doctrine/doctrine-bundle` explicitly.
+
+
 ## [2.0.0] - 2020-03-20
 
 ### Added
