@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\Service;
 
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -94,9 +94,9 @@ class ApiDeletionService
      * Default handling for entity deletion when no repository method has been supplied.
      * Will be called by DeleteConverter.
      *
-     * @param ObjectManager    $manager
-     * @param ObjectRepository $repository
-     * @param string           $primaryKey
+     * @param ObjectManager           $manager
+     * @param ObjectRepository<mixed> $repository
+     * @param string                  $primaryKey
      *
      * @throws EntityNotFoundException
      * @throws ORMException

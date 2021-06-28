@@ -1,6 +1,6 @@
 {
   "name": "check24/apitk-manipulation-bundle",
-  "version": "2.0.2",
+  "version": "2.2.0",
   "license": "MIT",
   "type": "symfony-bundle",
   "description": "",
@@ -30,8 +30,8 @@
     }
   ],
   "require": {
-    "php": "^7.1.3",
-    "check24/apitk-common-bundle": "^2.0",
+    "php": "^7.1.3 || ^8.0",
+    "check24/apitk-common-bundle": "dev-feature/php8.0 as 2.2",
     "doctrine/doctrine-bundle": "^2.2",
     "doctrine/orm": "^2.5",
     "doctrine/persistence": "^1 || ^2",
@@ -47,8 +47,8 @@
     "captainhook/plugin-composer": "^5.1",
     "friendsofphp/php-cs-fixer": "^2.12",
     "phpmd/phpmd": "^2.6",
-    "phpstan/phpstan": "^0.11",
-    "phpunit/phpunit": "^7.0",
-    "symfony/phpunit-bridge": "^4.0"
+    "phpstan/phpstan": "^0.12",
+    "phpunit/phpunit": "^9.3",
+    "symfony/phpunit-bridge": ">= 4.3 <6.0"
   }
 }
