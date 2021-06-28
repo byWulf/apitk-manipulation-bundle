@@ -6,7 +6,7 @@
         "action": "php ./vendor/bin/php-cs-fixer fix --verbose --dry-run"
       },
       {
-        "action": "php ./vendor/bin/phpstan analyse -l 7 -c phpstan.neon ."
+        "action": "php ./vendor/bin/phpstan analyse -c phpstan.neon ."
       },
       {
         "action": "php ./vendor/bin/phpmd ./ text ruleset.xml --exclude vendor"
