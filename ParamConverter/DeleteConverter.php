@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -167,7 +167,10 @@ class DeleteConverter implements ParamConverterInterface
             throw new RuntimeException('Unable to perform deletion as EntityManager is null');
         }
 
-        $repository = $om->getRepository((string) $this->getEntity());
+        /** @var class-string $entityClassName */
+        $entityClassName = $this->getEntity();
+
+        $repository = $om->getRepository($entityClassName);
         $methodName = $this->getRepositoryMethodName();
 
         if ($methodName === null) {

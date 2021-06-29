@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -42,7 +42,7 @@ class UpdateConverter implements ParamConverterInterface
     private $formFactory;
 
     /**
-     * @var FormInterface
+     * @var FormInterface<mixed>
      */
     private $form;
 
@@ -143,9 +143,9 @@ class UpdateConverter implements ParamConverterInterface
     }
 
     /**
-     * @param FormInterface $form
-     * @param Request       $request
-     * @param mixed         $data
+     * @param FormInterface<mixed> $form
+     * @param Request              $request
+     * @param mixed                $data
      *
      * @return mixed Updated entity
      */
@@ -173,7 +173,10 @@ class UpdateConverter implements ParamConverterInterface
             throw new RuntimeException('Unable to read entity to update as EntityManager is null');
         }
 
-        $repository = $om->getRepository((string) $this->getEntity());
+        /** @var class-string $entityClassName */
+        $entityClassName = $this->getEntity();
+
+        $repository = $om->getRepository($entityClassName);
         $methodName = $this->getRepositoryMethodName('find');
 
         return $repository->$methodName($this->getRequestParamValue());
