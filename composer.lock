@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8592fbc4b4301972a2ed159be8b6b771",
+    "content-hash": "7c817b1a0885a13383ac4c98ddb0ebce",
     "packages": [
         {
             "name": "check24/apitk-common-bundle",
-            "version": "dev-feature/php8.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/byWulf/apitk-common-bundle.git",
-                "reference": "5c0606cf4a7b848b5ecaf9cd1bba0b503cce1774"
+                "reference": "9a92c741cf0d6e1a4d4782750d1cf9c76d57edd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/byWulf/apitk-common-bundle/zipball/5c0606cf4a7b848b5ecaf9cd1bba0b503cce1774",
-                "reference": "5c0606cf4a7b848b5ecaf9cd1bba0b503cce1774",
+                "url": "https://api.github.com/repos/byWulf/apitk-common-bundle/zipball/9a92c741cf0d6e1a4d4782750d1cf9c76d57edd8",
+                "reference": "9a92c741cf0d6e1a4d4782750d1cf9c76d57edd8",
                 "shasum": ""
             },
             "require": {
@@ -68,9 +68,9 @@
             ],
             "description": "Contains classes, interfaces and traits that are shared between check24/apitk-* bundles",
             "support": {
-                "source": "https://github.com/byWulf/apitk-common-bundle/tree/feature/php8.0"
+                "source": "https://github.com/byWulf/apitk-common-bundle/tree/2.2.0"
             },
-            "time": "2021-06-28T05:35:20+00:00"
+            "time": "2021-06-29T05:42:08+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -7670,18 +7670,9 @@
             "time": "2020-07-12T23:59:07+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "check24/apitk-common-bundle",
-            "version": "dev-feature/php8.0",
-            "alias": "2.2",
-            "alias_normalized": "2.2.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "check24/apitk-common-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
