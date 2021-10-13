@@ -1,5 +1,11 @@
 <?php
 
+$finder = PhpCsFixer\Finder::create()
+    ->in([__DIR__])
+    ->exclude(['vendor'])
+    ->ignoreVCSIgnored(true)
+    ->name('*.php');
+
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
@@ -8,7 +14,6 @@ return (new PhpCsFixer\Config())
         'align_multiline_comment' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_before_statement' => true,
-        'class_attributes_separation' => true,
         'concat_space' => ['spacing' => 'one'],
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
@@ -55,13 +60,6 @@ return (new PhpCsFixer\Config())
         'strict_comparison' => false,
         'strict_param' => false,
         'yoda_style' => false,
+        'class_attributes_separation' => false,
     ])
-    ->setFinder(
-        PhpCsFixer\Finder::create()
-            ->in([
-                __DIR__,
-            ])
-            ->notPath('vendor')
-            ->name('*.php')
-    )
-;
+    ->setFinder($finder);

@@ -1,6 +1,10 @@
 parameters:
-    level: 7
+    level: 8
+    paths:
+        - .
     excludes_analyse:
         - ./vendor
         - ./example
         - ./DependencyInjection
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
