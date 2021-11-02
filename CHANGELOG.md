@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.1] - 2021-11-02
+
+### Fixed
+
+- Move phpstan/phpstan-deprecation-rules to dev dependencies
+
 ## [3.0.0] - 2021-10-13
 
 ### Removed
+
 - Support for PHP 7.1, 7.2 and 7.3
 - Support for Symfony 4.4, 5.0, 5.1, 5.2
 
@@ -22,11 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.2] - 2021-05-21
 
 ### Added
-* Support for `doctrine/orm@^2.8`
+
+- Support for `doctrine/orm@^2.8`
 
 ### Changed
-* Removed dependency to `symfony/orm-pack` and require `doctrine/orm` and `doctrine/doctrine-bundle` explicitly.
 
+- Removed dependency to `symfony/orm-pack` and require `doctrine/orm` and `doctrine/doctrine-bundle` explicitly.
 
 ## [2.0.0] - 2020-03-20
 
@@ -43,6 +51,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Last release without a changelog ;-)
 
-[unreleased]: https://github.com/byWulf/apitk-manipulation-bundle/compare/2.0.0...HEAD
+[unreleased]: https://github.com/byWulf/apitk-manipulation-bundle/compare/3.0.1...HEAD
+[3.0.1]: https://github.com/byWulf/apitk-manipulation-bundle/compare/3.0.0...3.0.1
+[3.0.0]: https://github.com/byWulf/apitk-manipulation-bundle/compare/2.2.0...3.0.0
+[2.2.0]: https://github.com/byWulf/apitk-manipulation-bundle/compare/2.0.2...2.2.0
+[2.0.2]: https://github.com/byWulf/apitk-manipulation-bundle/compare/2.0.0...2.0.2
 [2.0.0]: https://github.com/byWulf/apitk-manipulation-bundle/compare/1.0.3...2.0.0
 [1.0.3]: https://github.com/byWulf/apitk-manipulation-bundle/compare/1.0.2...1.0.3

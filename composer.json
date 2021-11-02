@@ -35,7 +35,6 @@
     "doctrine/orm": "^2.5",
     "doctrine/persistence": "^2",
     "nelmio/api-doc-bundle": "^3.2",
-    "phpstan/phpstan-deprecation-rules": "^0.12.6",
     "sensio/framework-extra-bundle": "^5.2",
     "symfony/config": ">= 5.3 <6.0",
     "symfony/dependency-injection": ">= 5.3 <6.0",
@@ -49,6 +48,7 @@
     "friendsofphp/php-cs-fixer": "^2.12",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-deprecation-rules": "^0.12.6",
     "phpunit/phpunit": "^9.3",
     "symfony/phpunit-bridge": ">= 4.3 <6.0"
   },
