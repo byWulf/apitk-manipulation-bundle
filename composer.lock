@@ -4,39 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25f4c039c6795e22a1ec5b9cbb01f80c",
+    "content-hash": "70be3d7b680422a5764ffed4b0915205",
     "packages": [
         {
             "name": "check24/apitk-common-bundle",
-            "version": "2.3.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/byWulf/apitk-common-bundle.git",
-                "reference": "71d265378bf7954f8265165fa848609c66e69374"
+                "reference": "7b57c3393db85b782e29ac7fb646e8b07205f511"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/byWulf/apitk-common-bundle/zipball/71d265378bf7954f8265165fa848609c66e69374",
-                "reference": "71d265378bf7954f8265165fa848609c66e69374",
+                "url": "https://api.github.com/repos/byWulf/apitk-common-bundle/zipball/7b57c3393db85b782e29ac7fb646e8b07205f511",
+                "reference": "7b57c3393db85b782e29ac7fb646e8b07205f511",
                 "shasum": ""
             },
             "require": {
                 "nelmio/api-doc-bundle": "^3.2",
-                "php": "^7.1.3 || ^8.0",
-                "sensio/framework-extra-bundle": "^5.2 || ^6.0",
-                "symfony/config": ">= 4.3 <6.0",
-                "symfony/dependency-injection": ">= 4.3 <6.0",
-                "symfony/framework-bundle": ">= 4.3 <6.0"
+                "php": "^7.4 || ^8.0",
+                "sensio/framework-extra-bundle": "^5.3 || ^6.0",
+                "symfony/config": ">= 5.3 <6.0",
+                "symfony/dependency-injection": ">= 5.3 <6.0",
+                "symfony/framework-bundle": ">= 5.3 <6.0"
             },
             "require-dev": {
                 "captainhook/captainhook": "^5.8",
-                "doctrine/doctrine-bundle": ">=1.8 <3.0",
+                "doctrine/doctrine-bundle": ">=2.3 <3.0",
                 "doctrine/orm": "^2.6",
-                "friendsofphp/php-cs-fixer": "^2.12",
+                "friendsofphp/php-cs-fixer": "^3.0",
                 "phpmd/phpmd": "^2.6",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12.6",
                 "phpunit/phpunit": "^9.3",
+                "roave/security-advisories": "dev-latest",
                 "symfony/phpunit-bridge": "^4.0"
             },
             "type": "symfony-bundle",
@@ -51,6 +53,30 @@
             "scripts": {
                 "post-install-cmd": [
                     "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install"
+                ],
+                "test:php-cs-fixer": [
+                    "@php vendor/bin/php-cs-fixer fix --verbose --dry-run"
+                ],
+                "test:phpstan": [
+                    "@php vendor/bin/phpstan analyse -c phpstan.neon ."
+                ],
+                "test:phpmd": [
+                    "@php vendor/bin/phpmd ./ text ruleset.xml --exclude vendor"
+                ],
+                "test:phpunit": [
+                    "@php vendor/bin/phpunit --verbose"
+                ],
+                "test": [
+                    "@test:php-cs-fixer",
+                    "@test:phpstan",
+                    "@test:phpmd",
+                    "@test:phpunit"
+                ],
+                "fix:php-cs-fixer": [
+                    "@php vendor/bin/php-cs-fixer fix --verbose"
+                ],
+                "fix": [
+                    "@fix:php-cs-fixer"
                 ]
             },
             "license": [
@@ -68,9 +94,9 @@
             ],
             "description": "Contains classes, interfaces and traits that are shared between check24/apitk-* bundles",
             "support": {
-                "source": "https://github.com/byWulf/apitk-common-bundle/tree/2.3.0"
+                "source": "https://github.com/byWulf/apitk-common-bundle/tree/3.0.1"
             },
-            "time": "2021-09-23T10:18:50+00:00"
+            "time": "2021-11-03T08:17:34+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -1818,25 +1844,25 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v5.6.1",
+            "version": "v6.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "430d14c01836b77c28092883d195a43ce413ee32"
+                "reference": "7fd1d54c1b27f094a68ae15a99b7fc815857255f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/430d14c01836b77c28092883d195a43ce413ee32",
-                "reference": "430d14c01836b77c28092883d195a43ce413ee32",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/7fd1d54c1b27f094a68ae15a99b7fc815857255f",
+                "reference": "7fd1d54c1b27f094a68ae15a99b7fc815857255f",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.0",
                 "php": ">=7.2.5",
-                "symfony/config": "^4.4|^5.0",
-                "symfony/dependency-injection": "^4.4|^5.0",
-                "symfony/framework-bundle": "^4.4|^5.0",
-                "symfony/http-kernel": "^4.4|^5.0"
+                "symfony/config": "^4.4|^5.0|^6.0",
+                "symfony/dependency-injection": "^4.4|^5.0|^6.0",
+                "symfony/framework-bundle": "^4.4|^5.0|^6.0",
+                "symfony/http-kernel": "^4.4|^5.0|^6.0"
             },
             "conflict": {
                 "doctrine/doctrine-cache-bundle": "<1.3.1",
@@ -1846,25 +1872,23 @@
                 "doctrine/dbal": "^2.10|^3.0",
                 "doctrine/doctrine-bundle": "^1.11|^2.0",
                 "doctrine/orm": "^2.5",
-                "nyholm/psr7": "^1.1",
-                "symfony/browser-kit": "^4.4|^5.0",
-                "symfony/doctrine-bridge": "^4.4|^5.0",
-                "symfony/dom-crawler": "^4.4|^5.0",
-                "symfony/expression-language": "^4.4|^5.0",
-                "symfony/finder": "^4.4|^5.0",
-                "symfony/monolog-bridge": "^4.0|^5.0",
+                "symfony/browser-kit": "^4.4|^5.0|^6.0",
+                "symfony/doctrine-bridge": "^4.4|^5.0|^6.0",
+                "symfony/dom-crawler": "^4.4|^5.0|^6.0",
+                "symfony/expression-language": "^4.4|^5.0|^6.0",
+                "symfony/finder": "^4.4|^5.0|^6.0",
+                "symfony/monolog-bridge": "^4.0|^5.0|^6.0",
                 "symfony/monolog-bundle": "^3.2",
-                "symfony/phpunit-bridge": "^4.4.9|^5.0.9",
-                "symfony/psr-http-message-bridge": "^1.1",
-                "symfony/security-bundle": "^4.4|^5.0",
-                "symfony/twig-bundle": "^4.4|^5.0",
-                "symfony/yaml": "^4.4|^5.0",
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9|^6.0",
+                "symfony/security-bundle": "^4.4|^5.0|^6.0",
+                "symfony/twig-bundle": "^4.4|^5.0|^6.0",
+                "symfony/yaml": "^4.4|^5.0|^6.0",
                 "twig/twig": "^1.34|^2.4|^3.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.6.x-dev"
+                    "dev-master": "6.1.x-dev"
                 }
             },
             "autoload": {
@@ -1892,9 +1916,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
-                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v5.6.1"
+                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.1"
             },
-            "time": "2020-08-25T19:10:18+00:00"
+            "time": "2021-10-20T09:43:03+00:00"
         },
         {
             "name": "symfony/cache",
