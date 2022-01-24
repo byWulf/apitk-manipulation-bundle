@@ -4,79 +4,85 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\Describer;
 
-use EXSyst\Component\Swagger\Operation;
-use EXSyst\Component\Swagger\Parameter;
-use EXSyst\Component\Swagger\Path;
-use EXSyst\Component\Swagger\Response;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Nelmio\ApiDocBundle\OpenApiPhp\Util;
+use Nelmio\ApiDocBundle\RouteDescriber\RouteDescriberInterface;
 use ReflectionMethod;
 use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
+use Shopping\ApiTKCommonBundle\Describer\RouteDescriberTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
-use Symfony\Component\Routing\Annotation\Route;
+use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Route;
+use ReflectionAttribute;
 
 /**
- * Provides automatic Parameter swagger annotations for actions that use the
+ * Provides automatic Parameter OpenApi annotations for actions that use the
  * param converter for Delete annotation.
  */
-class DeleteAnnotationDescriber extends AbstractDescriber
+class DeleteAnnotationDescriber implements RouteDescriberInterface
 {
-    protected function handleOperation(
-        Operation $operation,
-        ReflectionMethod $classMethod,
-        Path $path,
-        string $method
-    ): void {
-        $methodAnnotations = $this->reader->getMethodAnnotations($classMethod);
+    use RouteDescriberTrait;
 
-        /** @var Delete[] $deletes */
-        $deletes = array_filter($methodAnnotations, static function ($annotation) { return $annotation instanceof Delete; });
-        /** @var Route[] $routes */
-        $routes = array_filter($methodAnnotations, static function ($annotation) { return $annotation instanceof Route; });
-        $this->addDeletesToOperation($operation, $deletes, $routes);
+    public function __construct(
+        private AnnotationReader $annotationReader
+    ) {
+    }
+
+    public function describe(OA\OpenApi $api, Route $route, ReflectionMethod $reflectionMethod): void
+    {
+        $deletes = $this->getAnnotations($reflectionMethod);
+        if (empty($deletes)) {
+            return;
+        }
+
+        foreach ($this->getOperations($api, $route) as $operation) {
+            $this->addDeletesToOperation($operation, $deletes, $route);
+        }
     }
 
     /**
      * @param Delete[] $deletes
-     * @param Route[]  $routes
      */
-    private function addDeletesToOperation(Operation $operation, array $deletes, array $routes): void
+    private function addDeletesToOperation(OA\Operation $operation, array $deletes, Route $route): void
     {
         $routePlaceholders = [];
-        foreach ($routes as $route) {
-            $matches = [];
-            preg_match_all('/{([^}]+)}/', $route->getPath(), $matches);
-            $routePlaceholders = array_merge($routePlaceholders, $matches[1]);
-        }
+        preg_match_all('/{([^}]+)}/', $route->getPath(), $routePlaceholders);
+        $routePlaceholders = $routePlaceholders[1];
 
         foreach ($deletes as $delete) {
             if (in_array($delete->getName(), $routePlaceholders)) {
-                $parameter = new Parameter(
-                    [
-                        'name' => $delete->getName(),
-                        'in' => 'path',
-                        'type' => 'string',
-                        'required' => true,
-                        'description' => 'Delete entity with this ' . $delete->getName() . '.',
-                    ]
-                );
+                $parameter = Util::getOperationParameter($operation, $delete->getName(), 'path');
             } else {
-                $parameter = new Parameter(
-                    [
-                        'name' => $delete->getName(),
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => true,
-                        'description' => 'Delete entity with this ' . $delete->getName() . '.',
-                    ]
-                );
+                $parameter = Util::getOperationParameter($operation, $delete->getName(), 'query');
             }
 
-            $operation->getParameters()->add($parameter);
-            $operation->getResponses()->set(
-                \Symfony\Component\HttpFoundation\Response::HTTP_NO_CONTENT,
-                new Response([
-                    'description' => 'Returns HTTP 204 on success',
-                ])
-            );
+            $parameter->description = 'Delete entity with this ' . $delete->getName() . '.';
+            $parameter->required = true;
+
+            /** @var OA\Schema $schema */
+            $schema = Util::getChild($parameter, OA\Schema::class);
+            $schema->type = 'string';
+
+            /** @var OA\Response $response */
+            $response = Util::getCollectionItem($operation, OA\Response::class, ['response' => Response::HTTP_NO_CONTENT]);
+            $response->description = 'Returns HTTP 204 on success';
         }
+    }
+
+    /**
+     * @return Delete[]
+     */
+    private function getAnnotations(ReflectionMethod $method): array
+    {
+        $annotations = $this->annotationReader->getMethodAnnotations($method);
+        $annotations = array_filter($annotations, static fn ($value) => $value instanceof Delete);
+
+        $attributes = array_map(
+            static fn (ReflectionAttribute $attribute): object => $attribute->newInstance(),
+            $method->getAttributes(Delete::class, ReflectionAttribute::IS_INSTANCEOF)
+        );
+
+        return array_merge($attributes, $annotations);
     }
 }
