@@ -20,12 +20,8 @@ use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Class UpdateAnnotationDescriber.
- *
  * Provides automatic @Parameter swagger annotations for actions that use the
  * param converter for @Update annotation.
- *
- * @package Shopping\ApiTKManipulationBundle\Describer
  */
 class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegistryAwareInterface
 {
@@ -36,12 +32,6 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
      */
     private $formFactory;
 
-    /**
-     * @param RouteCollection      $routeCollection
-     * @param ControllerReflector  $controllerReflector
-     * @param Reader               $reader
-     * @param FormFactoryInterface $formFactory
-     */
     public function __construct(
         RouteCollection $routeCollection,
         ControllerReflector $controllerReflector,
@@ -52,12 +42,6 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
         $this->formFactory = $formFactory;
     }
 
-    /**
-     * @param Operation        $operation
-     * @param ReflectionMethod $classMethod
-     * @param Path             $path
-     * @param string           $method
-     */
     protected function handleOperation(
         Operation $operation,
         ReflectionMethod $classMethod,
@@ -72,8 +56,7 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
     }
 
     /**
-     * @param Operation $operation
-     * @param Update[]  $payloads
+     * @param Update[] $payloads
      */
     private function addUpdatesToOperation(Operation $operation, array $payloads): void
     {
@@ -98,11 +81,6 @@ class UpdateAnnotationDescriber extends AbstractDescriber implements ModelRegist
         }
     }
 
-    /**
-     * @param string $modelClass
-     *
-     * @return string
-     */
     private function getModelReference(string $modelClass): string
     {
         return $this->modelRegistry->register(

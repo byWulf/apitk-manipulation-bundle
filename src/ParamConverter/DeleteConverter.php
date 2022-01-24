@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Shopping\ApiTKManipulationBundle\ParamConverter;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use RuntimeException;
@@ -21,43 +21,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class DeleteConverter.
- *
  * ParamConverter to delete an entity from the database.
- *
- * @package Shopping\ApiTKManipulationBundle\ParamConverter
  */
 class DeleteConverter implements ParamConverterInterface
 {
     use ContextAwareParamConverterTrait;
     use EntityAwareParamConverterTrait;
 
-    /**
-     * @var ApiDeletionService
-     */
-    private $deletionService;
-
-    /**
-     * UpdateConverter constructor.
-     *
-     * @param ApiDeletionService $deletionService
-     * @param ManagerRegistry    $registry
-     */
-    public function __construct(ApiDeletionService $deletionService, ManagerRegistry $registry)
-    {
+    public function __construct(
+        private ApiDeletionService $deletionService,
+        ManagerRegistry $registry
+    ) {
         $this->registry = $registry;
-        $this->deletionService = $deletionService;
     }
 
     /**
-     * @param Request        $request
-     * @param ParamConverter $configuration
-     *
      * @throws EntityNotFoundException
      * @throws DeletionException
      * @throws InvalidArgumentException
-     *
-     * @return bool
      */
     public function apply(Request $request, ParamConverter $configuration): bool
     {
@@ -81,8 +62,6 @@ class DeleteConverter implements ParamConverterInterface
     /**
      * Checks if the object is supported.
      *
-     * @param ParamConverter $configuration
-     *
      * @return bool True if the object is supported, else false
      */
     public function supports(ParamConverter $configuration): bool
@@ -92,9 +71,6 @@ class DeleteConverter implements ParamConverterInterface
 
     /**
      * Essentially a wrapper around self::performDeletion() that normalizes its possible exceptions.
-     *
-     * @param string $requestParam
-     * @param string $requestParamName
      *
      * @throws DeletionException
      * @throws EntityNotFoundException
@@ -126,9 +102,7 @@ class DeleteConverter implements ParamConverterInterface
             }
 
             throw $e;
-        } catch (OptimisticLockException $e) {
-            throw new DeletionException($e->getMessage(), 0, $e);
-        } catch (ORMException $e) {
+        } catch (OptimisticLockException|ORMException $e) {
             throw new DeletionException($e->getMessage(), 0, $e);
         }
 
@@ -151,14 +125,9 @@ class DeleteConverter implements ParamConverterInterface
      * Either call a custom repository method to delete a given entity based on all request params or perform
      * the default off-the-shelf deletion where the entity will be removed based on its primary key.
      *
-     * @param string $requestParam
-     * @param string $requestParamName
-     *
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws OptimisticLockException
-     *
-     * @return bool
      */
     private function performDeletion(string $requestParam, string $requestParamName): bool
     {

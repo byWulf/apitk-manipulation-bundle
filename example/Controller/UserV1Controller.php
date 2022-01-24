@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MyApp\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -18,10 +20,6 @@ class UserV1Controller extends Controller
      * @Manipulation\Update("user", type=UserV1Type::class)
      *
      * @SWG\Tag(name="User")
-     *
-     * @param User $user
-     *
-     * @return Response
      */
     public function postUserV1(User $user): Response
     {
@@ -35,10 +33,6 @@ class UserV1Controller extends Controller
      * @Manipulation\Update("user", type=UserV1Type::class)
      *
      * @SWG\Tag(name="User")
-     *
-     * @param User $user
-     *
-     * @return Response
      */
     public function putUserV1(User $user): Response
     {
@@ -52,10 +46,6 @@ class UserV1Controller extends Controller
      * @Manipulation\Update("user", type=UserV1Type::class)
      *
      * @SWG\Tag(name="User")
-     *
-     * @param User $user
-     *
-     * @return Response
      */
     public function patchUserV1(User $user): Response
     {
@@ -70,8 +60,6 @@ class UserV1Controller extends Controller
      * @Manipulation\Delete("id", entity=User::class)
      *
      * @SWG\Tag(name="User")
-     *
-     * @return Response
      */
     public function deleteUserV1(Response $response): Response
     {

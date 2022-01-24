@@ -10,24 +10,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class ShoppingApiManipulationBundleExtension.
- *
- * @package Shopping\ApiTKManipulationBundle\DependencyInjection
- */
 class ShoppingApiManipulationBundleExtension extends Extension
 {
     /**
-     * Loads a specific configuration.
-     *
-     * @param array            $configs
-     * @param ContainerBuilder $container
+     * @param mixed[] $configs
      *
      * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yaml');
     }
 }

@@ -9,8 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTrait;
 
 /**
- * Class Delete.
- *
  * @Annotation
  *
  * Annotation for automatic handling of DELETE methods.
@@ -22,8 +20,6 @@ use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTr
  * @example Delete("id", entity=User::class)
  * @example Delete("email", entity=User::class)
  * @example Delete("itemId", entity=Item::class, entityManager="someOtherConnection")
- *
- * @package Shopping\ApiTKManipulationBundle\Annotation
  */
 class Delete extends ParamConverter
 {

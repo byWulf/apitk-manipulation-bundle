@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MyApp\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User.
- *
- * @package MyApp\Entity
  */
 class User
 {
@@ -38,19 +38,11 @@ class User
      */
     private $fullname;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     *
-     * @return User
-     */
     public function setId(?int $id): User
     {
         $this->id = $id;
@@ -58,19 +50,11 @@ class User
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param string|null $username
-     *
-     * @return User
-     */
     public function setUsername(?string $username): User
     {
         $this->username = $username;
@@ -78,19 +62,11 @@ class User
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string|null $email
-     *
-     * @return User
-     */
     public function setEmail(?string $email): User
     {
         $this->email = $email;
@@ -98,19 +74,11 @@ class User
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFullname(): ?string
     {
         return $this->fullname;
     }
 
-    /**
-     * @param string|null $fullname
-     *
-     * @return User
-     */
     public function setFullname(?string $fullname): User
     {
         $this->fullname = $fullname;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopping\ApiTKManipulationBundle\Describer;
 
 use EXSyst\Component\Swagger\Operation;
@@ -12,21 +14,11 @@ use Shopping\ApiTKManipulationBundle\Annotation\Delete;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DeleteAnnotationDescriber.
- *
  * Provides automatic Parameter swagger annotations for actions that use the
  * param converter for Delete annotation.
- *
- * @package Shopping\ApiTKManipulationBundle\Describer
  */
 class DeleteAnnotationDescriber extends AbstractDescriber
 {
-    /**
-     * @param Operation        $operation
-     * @param ReflectionMethod $classMethod
-     * @param Path             $path
-     * @param string           $method
-     */
     protected function handleOperation(
         Operation $operation,
         ReflectionMethod $classMethod,
@@ -43,9 +35,8 @@ class DeleteAnnotationDescriber extends AbstractDescriber
     }
 
     /**
-     * @param Operation $operation
-     * @param Delete[]  $deletes
-     * @param Route[]   $routes
+     * @param Delete[] $deletes
+     * @param Route[]  $routes
      */
     private function addDeletesToOperation(Operation $operation, array $deletes, array $routes): void
     {

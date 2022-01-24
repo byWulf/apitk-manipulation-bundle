@@ -9,8 +9,6 @@ use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTr
 use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\RequestParamAwareAnnotationTrait;
 
 /**
- * Class Update.
- *
  * @Annotation
  *
  * Annotation for automatic handling of POST, PUT and PATCH methods.
@@ -23,25 +21,13 @@ use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\RequestParamAwareAnnota
  *      requestParam="item_name",
  *      repositoryFindMethodName="findByName"
  * )
- *
- * @package Shopping\ApiTKManipulationBundle\Annotation
  */
 class Update extends ParamConverter
 {
     use EntityAwareAnnotationTrait;
     use RequestParamAwareAnnotationTrait;
 
-    /**
-     * Specify the name of this filter.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @param string $type
-     */
-    public function setType($type): void
+    public function setType(string $type): void
     {
         $options = $this->getOptions();
         $options['type'] = $type;

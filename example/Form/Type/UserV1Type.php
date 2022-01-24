@@ -13,15 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class UserV1Type.
- *
- * @package MyApp\Form\Type
  */
 class UserV1Type extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
