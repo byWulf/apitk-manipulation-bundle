@@ -9,6 +9,7 @@ services:
     arguments:
       - '@form.factory'
       - '@doctrine'
+      - '@parameter_bag'
     tags:
       - { name: request.param_converter, priority: 1 } # needs to run before doctrine converter
 
@@ -23,8 +24,6 @@ services:
   Shopping\ApiTKManipulationBundle\Describer\UpdateAnnotationDescriber:
     public: false
     arguments:
-      - '@nelmio_api_doc.routes.default'
-      - '@Shopping\ApiTKCommonBundle\Util\ControllerReflector'
       - '@annotations.reader'
       - '@form.factory'
     tags:
@@ -33,8 +32,6 @@ services:
   Shopping\ApiTKManipulationBundle\Describer\DeleteAnnotationDescriber:
     public: false
     arguments:
-      - '@nelmio_api_doc.routes.default'
-      - '@Shopping\ApiTKCommonBundle\Util\ControllerReflector'
       - '@annotations.reader'
     tags:
       - { name: 'nelmio_api_doc.route_describer', priority: -1000 }

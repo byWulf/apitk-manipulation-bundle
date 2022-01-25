@@ -15,6 +15,7 @@ use Shopping\ApiTKCommonBundle\ParamConverter\ContextAwareParamConverterTrait;
 use Shopping\ApiTKCommonBundle\ParamConverter\EntityAwareParamConverterTrait;
 use Shopping\ApiTKCommonBundle\ParamConverter\RequestParamAwareParamConverterTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Update;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,8 @@ class UpdateConverter implements ParamConverterInterface
 
     public function __construct(
         private FormFactoryInterface $formFactory,
-        ManagerRegistry $registry
+        ManagerRegistry $registry,
+        private ContainerBagInterface $containerBag
     ) {
         $this->registry = $registry;
     }
@@ -57,8 +59,13 @@ class UpdateConverter implements ParamConverterInterface
             throw new InvalidArgumentException('You have to specify "type" option for the UpdateConverter.');
         }
 
+        $csrfOptions = [];
+        if ($this->containerBag->has('form.type_extension.csrf.enabled') && $this->containerBag->get('form.type_extension.csrf.enabled') === true) {
+            $csrfOptions = ['csrf_protection' => false];
+        }
+
         // already create the form to read the data_class from it
-        $form = $this->formFactory->create($this->getOption('type'), null, ['csrf_protection' => false]);
+        $form = $this->formFactory->create($this->getOption('type'), null, $csrfOptions);
         // save it back to our parameterbag so EntityAwareParamConverterTrait knows what to do
         $this->getOptions()->set('entity', $form->getConfig()->getDataClass());
 
