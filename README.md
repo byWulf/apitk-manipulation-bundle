@@ -14,7 +14,7 @@ composer require check24/apitk-manipulation-bundle
 
 ### Example Classes
 
-See the `example`-Folder in this repository: https://github.com/alexdo/apitk-manipulation-bundle/tree/master/example
+See the `example`-Folder in this repository: https://github.com/byWulf/apitk-manipulation-bundle/tree/master/example
 
 ##### User entity
 
@@ -27,20 +27,14 @@ class User
 {
     private $id;
 
-    /**
-     * @Assert\NotBlank()
-     */
+    #[Assert\NotBlank]
     private $username;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
+    #[Assert\Email]
+    #[Assert\NotBlank]
     private $email;
 
-    /**
-     * @Assert\NotBlank()
-     */
+    #[Assert\NotBlank]
     private $fullname;
 
     // ...
@@ -61,10 +55,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserV1Type extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -73,7 +63,7 @@ class UserV1Type extends AbstractType
             ->add('fullname', TextType::class);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
@@ -92,7 +82,6 @@ namespace MyApp\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use MyApp\Entity\User;
 use Shopping\ApiTKManipulationBundle\Annotation as Manipulation;
-use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -100,16 +89,9 @@ class UserV1Controller extends Controller
 {
     /**
      * Create a new user.
-     *
-     * @Rest\Post("/v1/users/{id}")
-     * @Manipulation\Update("user", type=UserV1Type::class)
-     *
-     * @SWG\Tag(name="User")
-     *
-     * @param User $user
-     *
-     * @return Response
      */
+     #[Rest\Post("/v1/users")]
+     #[Manipulation\Update("user", type: UserV1Type::class)]
     public function postUserV1(User $user): Response
     {
         return new Response('', 200);
@@ -117,16 +99,9 @@ class UserV1Controller extends Controller
 
     /**
      * Update all properties of a given user.
-     *
-     * @Rest\Put("/v1/users/{id}")
-     * @Manipulation\Update("user", type=UserV1Type::class)
-     *
-     * @SWG\Tag(name="User")
-     *
-     * @param User $user
-     *
-     * @return Response
      */
+     #[Rest\Put("/v1/users/{id}")]
+     #[Manipulation\Update("user", type: UserV1Type::class)]
     public function putUserV1(User $user): Response
     {
         return new Response('', 200);
@@ -134,16 +109,9 @@ class UserV1Controller extends Controller
 
     /**
      * Partially update a users's properties.
-     *
-     * @Rest\Patch("/v1/users/{id}")
-     * @Manipulation\Update("user", type=UserV1Type::class)
-     *
-     * @SWG\Tag(name="User")
-     *
-     * @param User $user
-     *
-     * @return Response
      */
+     #[Rest\Patch("/v1/users/{id}")]
+     #[Manipulation\Update("user", type: UserV1Type::class)]
     public function patchUserV1(User $user): Response
     {
         return new Response('', 200);
@@ -151,15 +119,9 @@ class UserV1Controller extends Controller
 
     /**
      * Remove a user.
-     *
-     * @Rest\Delete("/v1/user/{id}")
-     *
-     * @Manipulation\Delete("id", entity=User::class)
-     *
-     * @SWG\Tag(name="User")
-     *
-     * @return Response
      */
+     #[Rest\Delete("/v1/user/{id}")]
+     #[Manipulation\Delete("id", entity: User::class)]
     public function deleteUserV1(Response $response): Response
     {
         return $response;
@@ -183,16 +145,9 @@ use Shopping\ApiTKManipulationBundle\Annotation as Manipulation;
 
 /**
  * Partially update a users's properties.
- *
- * @Rest\Patch("/v1/users/{id}")
- * @Manipulation\Update("user", type=UserV1Type::class)
- *
- * @SWG\Tag(name="User")
- *
- * @param User $user
- *
- * @return Response
  */
+ #[Rest\Patch("/v1/users/{id}")]
+ #[Manipulation\Update("user", type: UserV1Type::class)]
 public function patchUserV1(User $user): Response
 {
     return new Response('', 200);
@@ -200,63 +155,60 @@ public function patchUserV1(User $user): Response
 
 ```
 
-This will also auto-generate appropriate Swagger parameters. Usage of FOSRest bundle is optional. Controller methods
-look the same for POST and PUT.
+**Hint:** All attributes can also be uses as "normal" annotations within the docblock.
+
+This will also auto-generate appropriate Swagger/OpenApi parameters. Usage of FOSRest bundle is optional. 
+Controller methods look the same for POST and PUT.
 
 The `$user` parameter is an already updated version of the requested User. You can do anything you want with it:
 Serialization, JSON encode, etc.
 
-Internally, the `Update` annotation fetches the `default` EntityManager, gets the Repository and executes `find($id)`
+Internally, the `Update` attribute fetches the `default` EntityManager, gets the Repository and executes `find($id)`
 on it. You can customize this in three ways:
 
 1. If you'd like to use a **different ORM connection** than `default`, supply it via `entityManager`:
 
-   ```
-   @Manipulation\Update("user", type=UserV1Type::class, entityManager="custom")
+   ```injectablephp
+   #[Manipulation\Update("user", type: UserV1Type::class, entityManager: "custom")]
    ```
 
-   This will cause the annotation to fetch the repository and entity from the "custom" EntityManager.
+   This will cause the attribute to fetch the repository and entity from the "custom" EntityManager.
 
 2. If you'd like to use a **different Repository method** than `find`, use the `methodName` option:
 
-   ```
-   @Manipulation\Update("user", type=UserV1Type::class, methodName="findById")
+   ```injectablephp
+   #[Manipulation\Update("user", type: UserV1Type::class, methodName: "findById")]
    ```
 
 3. If your **path component is something different** than `id`, eg. `email`, you can supply the parameter
    to use via the `requestParam` option:
    ```
-   @Manipulation\Update("user", type=UserV1Type::class, requestParam="email", methodName="findByEmail")
+   #[Manipulation\Update("user", type: UserV1Type::class, requestParam: "email", methodName: "findByEmail")]
    ```
 
 #### Removing Entities (DELETE)
 
-To remove an entity, add an action to your controller that uses the `Delete`-Annotation.
+To remove an entity, add an action to your controller that uses the `Delete`-Attribute.    
+**Hint:** All attributes can also be uses as "normal" annotations within the docblock.
 
 ```php
 use Shopping\ApiTKManipulationBundle\Annotation as Manipulation;
 
 /**
  * Remove a user.
- *
- * @Rest\Delete("/v1/user/{id}")
- *
- * @Manipulation\Delete("id", entity=User::class)
- *
- * @SWG\Tag(name="User")
- *
- * @return Response
  */
+ #[Rest\Delete("/v1/user/{id}")]
+ #[Manipulation\Delete("id", entity: User::class)]
 public function deleteUserV1(Response $response): Response
 {
     return $response;
 }
 ```
 
-`@Manipulation\Delete("id", entity=User::class)`
+`#[Manipulation\Delete("id", entity: User::class)]`
 
 - `"id"` is the name of the path-component to get the ID from
-- `entity=User::class` is the type of the entity to be removed
+- `entity: User::class` is the type of the entity to be removed
 
 The `$response` parameter is a HTTP 204-Response (No Content). You can just return it, or ignore
 it and build one of your own.
@@ -268,18 +220,18 @@ As with `Update`, you can customize this behaviour:
 
 1. If you'd like to **perform a soft delete or other things** instead, use the `methodName` option:
 
-   ```
-   @Manipulation\Delete("id", entity=User::class, methodName="deleteById")
+   ```injectablephp
+   #[Manipulation\Delete("id", entity: User::class, methodName: "deleteById")]
    ```
 
-   This will cause the Annotation to call `DeleteRepository::deleteById(DeletionService $deletionService)`.
+   This will cause the attribute to call `DeleteRepository::deleteById(DeletionService $deletionService)`.
    The `DeletionService` allows you to access all request parameters. Perform anything you want to mark your
    Entity as deleted, eg. setting a deleted-Property from 0 to 1 and then flushing the EntityManager.
 
 2. If you'd like to use a **different ORM connection** than `default`, supply it via `entityManager`:
 
-   ```
-   @Manipulation\Delete("id", entity=User::class, entityManager="custom")
+   ```injectablephp
+   #[Manipulation\Delete("id", entity: User::class, entityManager: "custom")]
    ```
 
-   This will cause the annotation to operate against the "custom" EntityManager.
+   This will cause the attribute to operate against the "custom" EntityManager.

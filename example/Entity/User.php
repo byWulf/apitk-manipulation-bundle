@@ -18,24 +18,21 @@ class User
 
     /**
      * @var string|null
-     *
-     * @Assert\NotBlank()
      */
+    #[Assert\NotBlank]
     private $username;
 
     /**
      * @var string|null
-     *
-     * @Assert\NotBlank()
-     * @Assert\Email()
      */
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private $email;
 
     /**
      * @var string|null
-     *
-     * @Assert\NotBlank()
      */
+    #[Assert\NotBlank]
     private $fullname;
 
     public function getId(): ?int
