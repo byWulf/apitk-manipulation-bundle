@@ -7,14 +7,13 @@ namespace Shopping\ApiTKManipulationBundle\Describer;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Nelmio\ApiDocBundle\OpenApiPhp\Util;
 use Nelmio\ApiDocBundle\RouteDescriber\RouteDescriberInterface;
+use OpenApi\Annotations as OA;
+use ReflectionAttribute;
 use ReflectionMethod;
-use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
 use Shopping\ApiTKCommonBundle\Describer\RouteDescriberTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Delete;
-use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Route;
-use ReflectionAttribute;
 
 /**
  * Provides automatic Parameter OpenApi annotations for actions that use the

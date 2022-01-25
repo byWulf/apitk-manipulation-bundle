@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Shopping\ApiTKManipulationBundle\Annotation;
 
+use Attribute;
 use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTrait;
-use Attribute;
 
 /**
  * @Annotation

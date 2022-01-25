@@ -5,22 +5,19 @@ declare(strict_types=1);
 namespace Shopping\ApiTKManipulationBundle\Describer;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\Reader;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareInterface;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareTrait;
 use Nelmio\ApiDocBundle\Model\Model;
 use Nelmio\ApiDocBundle\OpenApiPhp\Util;
 use Nelmio\ApiDocBundle\RouteDescriber\RouteDescriberInterface;
+use OpenApi\Annotations as OA;
+use ReflectionAttribute;
 use ReflectionMethod;
-use Shopping\ApiTKCommonBundle\Describer\AbstractDescriber;
 use Shopping\ApiTKCommonBundle\Describer\RouteDescriberTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Update;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
-use OpenApi\Annotations as OA;
-use ReflectionAttribute;
 
 /**
  * Provides automatic @OA\Parameter OpenApi annotations for actions that use the
