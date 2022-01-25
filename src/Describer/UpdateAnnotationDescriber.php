@@ -58,13 +58,17 @@ class UpdateAnnotationDescriber implements ModelRegistryAwareInterface, RouteDes
             $form = $this->formFactory->create($payload->getOptions()['type']);
             $resolvedType = get_class($form->getConfig()->getType()->getInnerType());
 
-            $parameter = Util::getOperationParameter($operation, 'body', 'body');
-            $parameter->description = '(Partial) representation of ' . $resolvedType . ' structure. Primary key is optional, '
+            /** @var OA\RequestBody $body */
+            $body = Util::getChild($operation, OA\RequestBody::class);
+            $body->description = '(Partial) representation of ' . $resolvedType . ' structure. Primary key is optional, '
                 . 'associations may be supplied via primary keys and optional fields can be left out.';
-            $parameter->required = true;
+            $body->required = true;
+
+            /** @var OA\MediaType $mediaType */
+            $mediaType = Util::getCollectionItem($body, OA\MediaType::class, ['mediaType' => 'application/json']);
 
             /** @var OA\Schema $schema */
-            $schema = Util::getChild($parameter, OA\Schema::class);
+            $schema = Util::getChild($mediaType, OA\Schema::class);
             $schema->ref = $this->getModelReference($resolvedType);
         }
     }
