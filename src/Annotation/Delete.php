@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Shopping\ApiTKManipulationBundle\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTrait;
+use Attribute;
 
 /**
  * @Annotation
+ * @NamedArgumentConstructor()
  *
  * Annotation for automatic handling of DELETE methods.
  * Use your primary key path component as first argument and the corresponding entity class as entity option.
@@ -21,7 +24,29 @@ use Shopping\ApiTKCommonBundle\Annotation\ParamConverter\EntityAwareAnnotationTr
  * @example Delete("email", entity=User::class)
  * @example Delete("itemId", entity=Item::class, entityManager="someOtherConnection")
  */
+#[Attribute(Attribute::TARGET_METHOD)]
 class Delete extends ParamConverter
 {
     use EntityAwareAnnotationTrait;
+
+    public function __construct(
+        string $name,
+        string $entity,
+        ?string $entityManager = null,
+        ?string $repositoryFindMethodName = null
+    ) {
+        $options = [
+            'entity' => $entity,
+        ];
+
+        if ($entityManager !== null) {
+            $options['entityManager'] = $entityManager;
+        }
+
+        if ($repositoryFindMethodName !== null) {
+            $options['methodName'] = $repositoryFindMethodName;
+        }
+
+        parent::__construct($name, null, $options);
+    }
 }
