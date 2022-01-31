@@ -1,69 +1,71 @@
 {
-  "name": "check24/apitk-manipulation-bundle",
-  "license": "MIT",
-  "type": "symfony-bundle",
-  "description": "",
-  "authors": [
-    {
-      "name": "Alexander Dormann",
-      "email": "alexdo@alexdo.de"
-    }
-  ],
-  "autoload": {
-    "psr-4": { "Shopping\\ApiTKManipulationBundle\\": "" },
-    "exclude-from-classmap": [
-      "/Tests/",
-      "/example/"
-    ]
-  },
-  "config": {
-    "preferred-install": {
-      "*": "dist"
-    },
-    "sort-packages": true
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/byWulf/apitk-common-bundle.git"
-    }
-  ],
-  "require": {
-    "php": "^7.4 || ^8.0",
-    "check24/apitk-common-bundle": "^2.2 || ^3.0",
-    "doctrine/doctrine-bundle": "^2.2",
-    "doctrine/orm": "^2.5",
-    "doctrine/persistence": "^2",
-    "nelmio/api-doc-bundle": "^3.2",
-    "sensio/framework-extra-bundle": "^5.2 || ^6.0",
-    "symfony/config": ">= 5.3 <6.0",
-    "symfony/dependency-injection": ">= 5.3 <6.0",
-    "symfony/form": ">= 5.3 <6.0",
-    "symfony/framework-bundle": ">= 5.3 <6.0"
-  },
-  "require-dev": {
-    "roave/security-advisories": "dev-latest",
-    "captainhook/captainhook": "^5.0",
-    "captainhook/plugin-composer": "^5.1",
-    "friendsofphp/php-cs-fixer": "^2.12",
-    "phpmd/phpmd": "^2.6",
-    "phpstan/phpstan": "^0.12",
-    "phpstan/phpstan-deprecation-rules": "^0.12.6",
-    "phpunit/phpunit": "^9.3",
-    "symfony/phpunit-bridge": ">= 4.3 <6.0"
-  },
-  "scripts": {
-    "test:php-cs-fixer": "@php vendor/bin/php-cs-fixer fix --verbose --dry-run",
-    "test:phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon .",
-    "test:phpmd": "@php vendor/bin/phpmd ./ text ruleset.xml --exclude vendor",
-    "test": [
-      "@test:php-cs-fixer",
-      "@test:phpstan",
-      "@test:phpmd"
+    "name": "check24/apitk-manipulation-bundle",
+    "description": "",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Alexander Dormann",
+            "email": "alexdo@alexdo.de"
+        }
     ],
-    "fix:php-cs-fixer": "@php vendor/bin/php-cs-fixer fix --verbose",
-    "fix": [
-      "@fix:php-cs-fixer"
-    ]
-  }
+    "require": {
+        "php": "^8.0",
+        "check24/apitk-common-bundle": "^4.0",
+        "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/orm": "^2.5",
+        "doctrine/persistence": "^2",
+        "nelmio/api-doc-bundle": "^4.8",
+        "sensio/framework-extra-bundle": "^5.2 || ^6.0",
+        "symfony/config": "^5.3 || ^6.0",
+        "symfony/dependency-injection": "^5.3 || ^6.0",
+        "symfony/form": "^5.3 || ^6.0",
+        "symfony/framework-bundle": "^5.3 || ^6.0"
+    },
+    "require-dev": {
+        "captainhook/captainhook": "^5.10",
+        "captainhook/plugin-composer": "^5.3",
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "phpmd/phpmd": "^2.11",
+        "phpstan/phpstan": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpunit/phpunit": "^9.3",
+        "roave/security-advisories": "dev-latest",
+        "symfony/phpunit-bridge": "^5.3 || ^6.0"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/byWulf/apitk-common-bundle.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Shopping\\ApiTKManipulationBundle\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "captainhook/plugin-composer": true
+        },
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "fix": [
+            "@fix:php-cs-fixer"
+        ],
+        "fix:php-cs-fixer": "@php vendor/bin/php-cs-fixer fix --verbose",
+        "test": [
+            "@test:php-cs-fixer",
+            "@test:phpstan",
+            "@test:phpmd"
+        ],
+        "test:php-cs-fixer": "@php vendor/bin/php-cs-fixer fix --verbose --dry-run",
+        "test:phpmd": "@php vendor/bin/phpmd ./src text ruleset.xml --exclude vendor",
+        "test:phpstan": "@php vendor/bin/phpstan analyse -c phpstan.neon"
+    }
 }

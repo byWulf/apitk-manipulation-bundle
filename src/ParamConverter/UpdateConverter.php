@@ -15,20 +15,17 @@ use Shopping\ApiTKCommonBundle\ParamConverter\ContextAwareParamConverterTrait;
 use Shopping\ApiTKCommonBundle\ParamConverter\EntityAwareParamConverterTrait;
 use Shopping\ApiTKCommonBundle\ParamConverter\RequestParamAwareParamConverterTrait;
 use Shopping\ApiTKManipulationBundle\Annotation\Update;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class UpdateConverter.
- *
  * Handles POST, PUT and PATCH requests for a given entity and form type.
  * For PUT & PATCH, it will fetch the requested entity from doctrine, create a form and validate it.
  * For POST, it will create a new entity instance from doctrine, create a form and validate it.
  *
  * Objects without validation errors will be updated/persisted to the DB automatically.
- *
- * @package Shopping\ApiTKManipulationBundle\ParamConverter
  */
 class UpdateConverter implements ParamConverterInterface
 {
@@ -36,32 +33,17 @@ class UpdateConverter implements ParamConverterInterface
     use EntityAwareParamConverterTrait;
     use RequestParamAwareParamConverterTrait;
 
-    /**
-     * @var FormFactoryInterface
-     */
-    private $formFactory;
-
-    /**
-     * @var FormInterface<mixed>
-     */
-    private $form;
-
-    /**
-     * UpdateConverter constructor.
-     *
-     * @param FormFactoryInterface $formFactory
-     * @param ManagerRegistry      $registry
-     */
-    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $registry)
-    {
+    public function __construct(
+        private FormFactoryInterface $formFactory,
+        ManagerRegistry $registry,
+        private ContainerBagInterface $containerBag
+    ) {
         $this->registry = $registry;
-        $this->formFactory = $formFactory;
     }
 
     /**
      * Stores the object in the request.
      *
-     * @param Request        $request
      * @param ParamConverter $configuration Contains the name, class and options of the object
      *
      * @throws EntityNotFoundException
@@ -77,10 +59,15 @@ class UpdateConverter implements ParamConverterInterface
             throw new InvalidArgumentException('You have to specify "type" option for the UpdateConverter.');
         }
 
+        $csrfOptions = [];
+        if ($this->containerBag->has('form.type_extension.csrf.enabled') && $this->containerBag->get('form.type_extension.csrf.enabled') === true) {
+            $csrfOptions = ['csrf_protection' => false];
+        }
+
         // already create the form to read the data_class from it
-        $this->form = $this->formFactory->create($this->getOption('type'), null, ['csrf_protection' => false]);
+        $form = $this->formFactory->create($this->getOption('type'), null, $csrfOptions);
         // save it back to our parameterbag so EntityAwareParamConverterTrait knows what to do
-        $this->getOptions()->set('entity', $this->form->getConfig()->getDataClass());
+        $this->getOptions()->set('entity', $form->getConfig()->getDataClass());
 
         if ($this->getEntity() === null) {
             throw new InvalidArgumentException(
@@ -94,7 +81,7 @@ class UpdateConverter implements ParamConverterInterface
             $entity = $this->fetchEntity();
         }
 
-        $updatedEntity = $this->validateForm($this->form, $entity, $request);
+        $updatedEntity = $this->validateForm($form, $entity, $request);
 
         $om = $this->getManager();
         if ($om === null) {
@@ -114,7 +101,7 @@ class UpdateConverter implements ParamConverterInterface
      *
      * @return mixed Entity
      */
-    private function fetchEntity()
+    private function fetchEntity(): mixed
     {
         if ($this->getRequestParamValue() === null) {
             throw new InvalidArgumentException(
@@ -144,12 +131,10 @@ class UpdateConverter implements ParamConverterInterface
 
     /**
      * @param FormInterface<mixed> $form
-     * @param Request              $request
-     * @param mixed                $data
      *
      * @return mixed Updated entity
      */
-    private function validateForm(FormInterface $form, $data, Request $request)
+    private function validateForm(FormInterface $form, mixed $data, Request $request): mixed
     {
         $form->setData($data);
 
@@ -164,9 +149,9 @@ class UpdateConverter implements ParamConverterInterface
     }
 
     /**
-     * @return mixed|null Returns a matching entity or 0 if nothing has been found
+     * @return mixed Returns a matching entity or null if nothing has been found
      */
-    private function findInRepository()
+    private function findInRepository(): mixed
     {
         $om = $this->getManager();
         if ($om === null) {
@@ -184,8 +169,6 @@ class UpdateConverter implements ParamConverterInterface
 
     /**
      * Checks if the object is supported.
-     *
-     * @param ParamConverter $configuration
      *
      * @return bool True if the object is supported, else false
      */

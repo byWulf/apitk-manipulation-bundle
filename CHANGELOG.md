@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] - 2022-01-25
+
+### Added
+- Support for Symfony 6.0
+- Support for OpenAPI
+- Attribute support
+
+### Changed
+- Use php8 syntax in project
+
+### Removed
+- Support for PHP 7.4
+- Support for nelmio/api-doc-bundle < 4.x
+- Support for zircote/swagger-php < 4.x
+
 ## [3.0.1] - 2021-11-02
 
 ### Fixed
@@ -51,7 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Last release without a changelog ;-)
 
-[unreleased]: https://github.com/byWulf/apitk-manipulation-bundle/compare/3.0.1...HEAD
+[unreleased]: https://github.com/byWulf/apitk-manipulation-bundle/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/byWulf/apitk-manipulation-bundle/compare/3.0.1...4.0.0
 [3.0.1]: https://github.com/byWulf/apitk-manipulation-bundle/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/byWulf/apitk-manipulation-bundle/compare/2.2.0...3.0.0
 [2.2.0]: https://github.com/byWulf/apitk-manipulation-bundle/compare/2.0.2...2.2.0
