@@ -47,10 +47,10 @@ class DeleteAnnotationDescriber implements RouteDescriberInterface
     {
         $routePlaceholders = [];
         preg_match_all('/{([^}]+)}/', $route->getPath(), $routePlaceholders);
-        $routePlaceholders = $routePlaceholders[1];
+        $routePlaceholders = $routePlaceholders[1] ?? [];
 
         foreach ($deletes as $delete) {
-            if (in_array($delete->getName(), $routePlaceholders)) {
+            if (in_array($delete->getName(), $routePlaceholders, true)) {
                 $parameter = Util::getOperationParameter($operation, $delete->getName(), 'path');
             } else {
                 $parameter = Util::getOperationParameter($operation, $delete->getName(), 'query');

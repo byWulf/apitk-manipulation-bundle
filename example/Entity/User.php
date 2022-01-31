@@ -6,9 +6,6 @@ namespace MyApp\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Class User.
- */
 class User
 {
     /**

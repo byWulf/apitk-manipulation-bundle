@@ -149,7 +149,7 @@ class UpdateConverter implements ParamConverterInterface
     }
 
     /**
-     * @return mixed|null Returns a matching entity or 0 if nothing has been found
+     * @return mixed Returns a matching entity or null if nothing has been found
      */
     private function findInRepository(): mixed
     {
